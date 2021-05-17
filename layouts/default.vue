@@ -1,7 +1,6 @@
 <template>
   <div>
-    <div>This is just for testing</div>
-    <div>Testing branch is approved</div>
+    <Nuxt />
   </div>
 </template>
 
