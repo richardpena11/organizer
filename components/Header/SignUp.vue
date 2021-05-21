@@ -8,6 +8,22 @@
         class="sign-up__form"
         @submit.prevent="isSigningUp ? signUp() : signIn()"
       >
+        <picture-input
+          v-if="isSigningUp"
+          ref="pictureInput"
+          class="sign-up__form__picture-input"
+          width="100"
+          height="100"
+          radius="50"
+          accept="image/jpeg,image/png"
+          size="10"
+          :hide-change-button="true"
+          :custom-strings="{
+            drag: `<h2>Profile Picture</h2>`,
+          }"
+          @change="onChange"
+        />
+
         <div v-if="isSigningUp" class="sign-up__form__name">
           <label for="name">Name</label>
           <input v-model.trim="$v.name.$model" name="name" type="text" />
@@ -18,11 +34,11 @@
         <div class="sign-up__form__email">
           <label for="email">Email</label>
           <input v-model.trim="$v.email.$model" name="email" type="email" />
-          <span v-if="$v.email.$invalid && $v.email.$dirty" class="error">
-            Email is required.
-          </span>
           <span v-if="!$v.email.email" class="error">
             Must be a valid Email.
+          </span>
+          <span v-else-if="$v.email.$invalid && $v.email.$dirty" class="error">
+            Email is required.
           </span>
         </div>
         <div class="sign-up__form__password">
@@ -32,16 +48,19 @@
             name="password"
             type="password"
           />
-          <span v-if="$v.password.$invalid && $v.password.$dirty" class="error">
-            Password is required.
-          </span>
-          <span v-if="!$v.password.minLength" class="error">
-            Password must have at least
-            {{ $v.password.$params.minLength.min }} characters.
-          </span>
           <span v-if="!$v.password.maxLength" class="error">
             Password must not have more than
             {{ $v.password.$params.maxLength.max }} characters.
+          </span>
+          <span v-else-if="!$v.password.minLength" class="error">
+            Password must have at least
+            {{ $v.password.$params.minLength.min }} characters.
+          </span>
+          <span
+            v-else-if="$v.password.$invalid && $v.password.$dirty"
+            class="error"
+          >
+            Password is required.
           </span>
         </div>
         <div class="sign-up__form__action">
@@ -57,7 +76,7 @@
             </span>
           </div>
           <div v-if="error" class="sign-up__form__action__error">
-            <v-snackbar :timeout="-1" v-model="snackbar" fixed top centered>
+            <v-snackbar v-model="snackbar" :timeout="-1" fixed top centered>
               {{ error }}
               <v-btn color="blue" text @click="snackbar = false">Close</v-btn>
             </v-snackbar>
@@ -97,6 +116,15 @@ export default {
     },
   },
   methods: {
+    onChange(image) {
+      console.log('New picture selected!')
+      if (image) {
+        console.log('Picture loaded.')
+        this.image = image
+      } else {
+        console.log('FileReader API not supported: use the <form>, Luke!')
+      }
+    },
     changeSignUp() {
       this.isSigningUp ? (this.isSigningUp = false) : (this.isSigningUp = true)
     },
@@ -149,7 +177,7 @@ export default {
   background-color: white;
   border-radius: 10px;
   padding: 15px;
-  min-height: 400px;
+  min-height: 475px;
   font-family: 'Roboto', sans-serif;
   width: 320px;
   position: relative;
@@ -162,6 +190,12 @@ export default {
     font-size: 24px;
   }
   &__form {
+    &__picture-input {
+      margin-top: 20px;
+      span {
+        font-size: 20px;
+      }
+    }
     &__name,
     &__email,
     &__password {
@@ -170,7 +204,7 @@ export default {
       position: relative;
       color: #001847;
       font-weight: 800;
-      margin-top: 20px;
+      margin-top: 10px;
       label {
         margin-bottom: 10px;
       }
