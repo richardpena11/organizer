@@ -6,19 +6,19 @@
         <div class="sign-up__form__name">
           <label for="name">Name</label>
           <input v-model.trim="$v.name.$model" name="name" type="text" />
-          <div v-if="$v.name.$invalid && $v.name.$dirty" class="error">
+          <span v-if="$v.name.$invalid && $v.name.$dirty" class="error">
             Name is required.
-          </div>
+          </span>
         </div>
         <div class="sign-up__form__email">
           <label for="email">Email</label>
           <input v-model.trim="$v.correo.$model" name="email" type="email" />
-          <div v-if="$v.correo.$invalid && $v.correo.$dirty" class="error">
+          <span v-if="$v.correo.$invalid && $v.correo.$dirty" class="error">
             Email is required.
-          </div>
-          <div v-if="!$v.correo.email" class="error">
+          </span>
+          <span v-if="!$v.correo.email" class="error">
             Must be a valid Email.
-          </div>
+          </span>
         </div>
         <div class="sign-up__form__password">
           <label for="password">Password</label>
@@ -27,20 +27,23 @@
             name="password"
             type="password"
           />
-          <div v-if="$v.password.$invalid && $v.password.$dirty" class="error">
+          <span v-if="$v.password.$invalid && $v.password.$dirty" class="error">
             Password is required.
-          </div>
-          <div v-if="!$v.password.minLength" class="error">
+          </span>
+          <span v-if="!$v.password.minLength" class="error">
             Password must have at least
             {{ $v.password.$params.minLength.min }} characters.
-          </div>
-          <div v-if="!$v.password.maxLength" class="error">
+          </span>
+          <span v-if="!$v.password.maxLength" class="error">
             Password must not have more than
             {{ $v.password.$params.maxLength.max }} characters.
-          </div>
+          </span>
         </div>
         <div class="sign-up__form__switch">
-          Already have an account? Then <a href="#">Log In</a>
+          <span class="sign-up__form__switch__text">
+            Already have an account? Then
+            <a class="sign-up__form__switch__link" href="#"> Log In </a>
+          </span>
         </div>
         <button class="sign-up__form__submit" @click="submit">Submit</button>
       </form>
@@ -122,13 +125,21 @@ export default {
       }
     }
     &__switch {
-      font-size: 12px;
-      text-align: center;
-      display: initial;
       margin-bottom: 15px;
-      font-weight: 100;
-      a {
-        display: inline;
+      font-family: 'Roboto Condensed', sans-serif;
+      &__text {
+        font-size: 16px;
+        text-align: center;
+        font-weight: 400;
+      }
+      &__link {
+        font-weight: 700;
+        text-decoration: none;
+        color: #0f5ef7;
+        transition: color 500ms;
+        &:hover {
+          color: #001847;
+        }
       }
     }
     &__submit {

@@ -5,13 +5,13 @@
     </div>
     <div class="hero__slogan">
       <h2 class="hero__slogan__principal">Organize Your Projects</h2>
-      <div class="hero__slogan__secondary">Any kind of slogan</div>
+      <h3 class="hero__slogan__secondary">Any kind of slogan</h3>
     </div>
-    <div class="hero__description">
+    <p class="hero__description">
       Any Lorem ipsum dolor sit amet, consectetur adipiscing elit Vestibulum
       porta eros at magna faucibus, at sagittis ante vestibulum tincidunt
       laoreet malesuada. Praesent. of slogan
-    </div>
+    </p>
   </div>
 </template>
 
