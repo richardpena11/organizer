@@ -1,95 +1,94 @@
 <template>
-  <div>
-    <div class="sign-up">
-      <div class="sign-up__title">
-        {{ isSigningUp ? 'Sign Up' : 'Sign in' }}
-      </div>
-      <form
-        class="sign-up__form"
-        @submit.prevent="isSigningUp ? signUp() : signIn()"
-      >
-        <!-- ---------- Profile Picture Input ---------- -->
-        <picture-input
-          v-if="isSigningUp"
-          ref="pictureInput"
-          class="sign-up__form__picture-input"
-          width="100"
-          height="100"
-          radius="50"
-          accept="image/jpeg,image/png"
-          size="10"
-          :hide-change-button="true"
-          :custom-strings="{
-            drag: `<h2>Profile Picture</h2>`,
-          }"
-          @change="onChange"
-        />
-        <!-- ---------- Name Input ---------- -->
-        <div v-if="isSigningUp" class="sign-up__form__name">
-          <label for="name">Name</label>
-          <input v-model.trim="$v.name.$model" name="name" type="text" />
-          <span v-if="$v.name.$invalid && $v.name.$dirty" class="error">
-            Name is required.
-          </span>
-        </div>
-        <!-- ---------- Email Input ---------- -->
-        <div class="sign-up__form__email">
-          <label for="email">Email</label>
-          <input v-model.trim="$v.email.$model" name="email" type="email" />
-          <span v-if="!$v.email.email" class="error">
-            Must be a valid Email.
-          </span>
-          <span v-else-if="$v.email.$invalid && $v.email.$dirty" class="error">
-            Email is required.
-          </span>
-        </div>
-        <!-- ---------- Password Input ---------- -->
-        <div class="sign-up__form__password">
-          <label for="password">Password</label>
-          <input
-            v-model.trim="$v.password.$model"
-            name="password"
-            type="password"
-          />
-          <span v-if="!$v.password.maxLength" class="error">
-            Password must not have more than
-            {{ $v.password.$params.maxLength.max }} characters.
-          </span>
-          <span v-else-if="!$v.password.minLength" class="error">
-            Password must have at least
-            {{ $v.password.$params.minLength.min }} characters.
-          </span>
-          <span
-            v-else-if="$v.password.$invalid && $v.password.$dirty"
-            class="error"
-          >
-            Password is required.
-          </span>
-        </div>
-        <div class="sign-up__form__action">
-          <!-- ---------- Switch Sign Up/Sign In ---------- -->
-          <div class="sign-up__form__action__switch">
-            <span class="sign-up__form__action__switch__text">
-              {{ isSigningUp ? 'Already' : "Don't" }} have an account? Then
-              <span
-                class="sign-up__form__action__switch__link"
-                @click="changeSignUp"
-              >
-                {{ !isSigningUp ? 'Sign Up' : 'Sign in' }}
-              </span>
-            </span>
-          </div>
-          <div v-if="error" class="sign-up__form__action__error">
-            <v-snackbar v-model="snackbar" :timeout="-1" fixed top centered>
-              {{ error }}
-              <v-btn color="blue" text @click="snackbar = false">Close</v-btn>
-            </v-snackbar>
-          </div>
-          <!-- ---------- Submit Form ---------- -->
-          <button class="sign-up__form__action__submit">Submit</button>
-        </div>
-      </form>
+  <div class="sign-up">
+    <div class="sign-up__title">
+      {{ isSigningUp ? 'Sign Up' : 'Sign in' }}
     </div>
+    <form
+      class="sign-up__form"
+      @submit.prevent="isSigningUp ? signUp() : signIn()"
+    >
+      <!-- ---------- Profile Picture Input ---------- -->
+      <picture-input
+        v-if="isSigningUp"
+        ref="pictureInput"
+        class="sign-up__form__picture-input"
+        width="100"
+        height="100"
+        radius="50"
+        border="2px solid #000"
+        accept="image/jpeg,image/png"
+        size="10"
+        :hide-change-button="true"
+        :custom-strings="{
+          drag: `<h2>Profile Picture</h2>`,
+        }"
+        @change="onChange"
+      />
+      <!-- ---------- Name Input ---------- -->
+      <div v-if="isSigningUp" class="sign-up__form__name">
+        <label for="name">Name</label>
+        <input v-model.trim="$v.name.$model" name="name" type="text" />
+        <span v-if="$v.name.$invalid && $v.name.$dirty" class="error">
+          Name is required.
+        </span>
+      </div>
+      <!-- ---------- Email Input ---------- -->
+      <div class="sign-up__form__email">
+        <label for="email">Email</label>
+        <input v-model.trim="$v.email.$model" name="email" type="email" />
+        <span v-if="!$v.email.email" class="error">
+          Must be a valid Email.
+        </span>
+        <span v-else-if="$v.email.$invalid && $v.email.$dirty" class="error">
+          Email is required.
+        </span>
+      </div>
+      <!-- ---------- Password Input ---------- -->
+      <div class="sign-up__form__password">
+        <label for="password">Password</label>
+        <input
+          v-model.trim="$v.password.$model"
+          name="password"
+          type="password"
+        />
+        <span v-if="!$v.password.maxLength" class="error">
+          Password must not have more than
+          {{ $v.password.$params.maxLength.max }} characters.
+        </span>
+        <span v-else-if="!$v.password.minLength" class="error">
+          Password must have at least
+          {{ $v.password.$params.minLength.min }} characters.
+        </span>
+        <span
+          v-else-if="$v.password.$invalid && $v.password.$dirty"
+          class="error"
+        >
+          Password is required.
+        </span>
+      </div>
+      <div class="sign-up__form__action">
+        <!-- ---------- Switch Sign Up/Sign In ---------- -->
+        <div class="sign-up__form__action__switch">
+          <span class="sign-up__form__action__switch__text">
+            {{ isSigningUp ? 'Already' : "Don't" }} have an account? Then
+            <span
+              class="sign-up__form__action__switch__link"
+              @click="changeSignUp"
+            >
+              {{ !isSigningUp ? 'Sign Up' : 'Sign in' }}
+            </span>
+          </span>
+        </div>
+        <div v-if="error" class="sign-up__form__action__error">
+          <v-snackbar v-model="snackbar" :timeout="-1" fixed top centered>
+            {{ error }}
+            <v-btn color="blue" text @click="snackbar = false">Close</v-btn>
+          </v-snackbar>
+        </div>
+        <!-- ---------- Submit Form ---------- -->
+        <button class="sign-up__form__action__submit">Submit</button>
+      </div>
+    </form>
   </div>
 </template>
 
@@ -185,9 +184,6 @@ export default {
   min-height: 475px;
   font-family: 'Roboto', sans-serif;
   width: 320px;
-  position: relative;
-  top: 60px;
-  right: -20%;
   &__title {
     text-align: center;
     color: #001847;
@@ -197,9 +193,6 @@ export default {
   &__form {
     &__picture-input {
       margin-top: 20px;
-      span {
-        font-size: 20px;
-      }
     }
     &__name,
     &__email,

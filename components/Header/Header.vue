@@ -31,7 +31,10 @@ export default {
   .header {
     max-width: 1000px;
     width: 90%;
+    height: 80%;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-family: 'Roboto', sans-serif;
   }
 }
