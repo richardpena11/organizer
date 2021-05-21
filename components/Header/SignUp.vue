@@ -56,6 +56,12 @@
               </span>
             </span>
           </div>
+          <div v-if="error" class="sign-up__form__action__error">
+            <v-snackbar :timeout="-1" v-model="snackbar" fixed top centered>
+              {{ error }}
+              <v-btn color="blue" text @click="snackbar = false">Close</v-btn>
+            </v-snackbar>
+          </div>
           <button class="sign-up__form__action__submit">Submit</button>
         </div>
       </form>
@@ -72,6 +78,8 @@ export default {
       name: '',
       email: '',
       isSigningUp: true,
+      error: '',
+      snackbar: false,
     }
   },
   validations: {
@@ -94,26 +102,30 @@ export default {
     },
     signIn() {
       this.$v.$touch()
-      if (this.$v.email.$invalid || this.$v.password.$invalid) {
-        console.log('')
-      } else {
+      if (!this.$v.email.$invalid || !this.$v.password.$invalid) {
         console.log('Sign In')
-        console.log(this.$fire)
+        this.$fire.auth
+          .signInWithEmailAndPassword(this.email, this.password)
+          .then((userCredential) => {
+            console.log(userCredential)
+          })
+          .catch((error) => {
+            this.error = error.message
+            this.snackbar = true
+          })
       }
     },
     signUp() {
       this.$v.$touch()
-      if (this.$v.$invalid) {
-        console.log('')
-      } else {
-        console.log('Sign Up')
+      if (!this.$v.$invalid) {
         this.$fire.auth
           .createUserWithEmailAndPassword(this.email, this.password)
           .then((userCredential) => {
             console.log(userCredential)
           })
           .catch((error) => {
-            console.log(error)
+            this.error = error.message
+            this.snackbar = true
           })
       }
     },
