@@ -4,7 +4,10 @@
       <div class="sign-up__title">
         {{ isSigningUp ? 'Sign Up' : 'Sign in' }}
       </div>
-      <form class="sign-up__form" @submit.prevent="submit">
+      <form
+        class="sign-up__form"
+        @submit.prevent="isSigningUp ? signUp() : signIn()"
+      >
         <div v-if="isSigningUp" class="sign-up__form__name">
           <label for="name">Name</label>
           <input v-model.trim="$v.name.$model" name="name" type="text" />
@@ -14,11 +17,11 @@
         </div>
         <div class="sign-up__form__email">
           <label for="email">Email</label>
-          <input v-model.trim="$v.correo.$model" name="email" type="email" />
-          <span v-if="$v.correo.$invalid && $v.correo.$dirty" class="error">
+          <input v-model.trim="$v.email.$model" name="email" type="email" />
+          <span v-if="$v.email.$invalid && $v.email.$dirty" class="error">
             Email is required.
           </span>
-          <span v-if="!$v.correo.email" class="error">
+          <span v-if="!$v.email.email" class="error">
             Must be a valid Email.
           </span>
         </div>
@@ -53,9 +56,7 @@
               </span>
             </span>
           </div>
-          <button class="sign-up__form__action__submit" @click="submit">
-            Submit
-          </button>
+          <button class="sign-up__form__action__submit">Submit</button>
         </div>
       </form>
     </div>
@@ -69,7 +70,7 @@ export default {
     return {
       password: '',
       name: '',
-      correo: '',
+      email: '',
       isSigningUp: true,
     }
   },
@@ -82,7 +83,7 @@ export default {
     name: {
       required,
     },
-    correo: {
+    email: {
       required,
       email,
     },
@@ -92,22 +93,28 @@ export default {
       this.isSigningUp ? (this.isSigningUp = false) : (this.isSigningUp = true)
     },
     signIn() {
-      console.log('Sign In')
+      this.$v.$touch()
+      if (this.$v.email.$invalid || this.$v.password.$invalid) {
+        console.log('')
+      } else {
+        console.log('Sign In')
+        console.log(this.$fire)
+      }
     },
     signUp() {
-      console.log('Sign Up')
-    },
-    submit() {
       this.$v.$touch()
       if (this.$v.$invalid) {
         console.log('')
       } else {
-        console.log('')
-        if (this.isSigningUp) {
-          this.signUp()
-        } else {
-          this.signIn()
-        }
+        console.log('Sign Up')
+        this.$fire.auth
+          .createUserWithEmailAndPassword(this.email, this.password)
+          .then((userCredential) => {
+            console.log(userCredential)
+          })
+          .catch((error) => {
+            console.log(error)
+          })
       }
     },
   },

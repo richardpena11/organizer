@@ -13,9 +13,12 @@
   },
   "dependencies": {
     "@nuxt/content": "^1.14.0",
+    "@nuxtjs/firebase": "^7.5.0",
     "@nuxtjs/pwa": "^3.3.5",
     "core-js": "^3.9.1",
     "eslint-config-standard": "^16.0.2",
+    "firebase": "^8.6.2",
+    "firebase-admin": "^9.8.0",
     "nuxt": "^2.15.3",
     "v-calendar": "^2.3.0",
     "vuedraggable": "^2.24.3",

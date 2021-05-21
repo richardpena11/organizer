@@ -50,7 +50,36 @@ export default {
     '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
+    // https://firebase.nuxtjs.org/guide/getting-started
+    '@nuxtjs/firebase',
   ],
+
+  firebase: {
+    config: {
+      apiKey: 'AIzaSyBYS7uWhmm1oDZowwZv0Ftu_cASKmxO-m4',
+      authDomain: 'organizer-87011.firebaseapp.com',
+      projectId: 'organizer-87011',
+      storageBucket: 'organizer-87011.appspot.com',
+      messagingSenderId: '720468172308',
+      appId: '1:720468172308:web:494001d2747627546ed101',
+      measurementId: 'G-6M759SD2XD'
+    },
+    services: {
+      auth: true 
+    }
+  },
+
+  auth: {
+    persistence: 'local', // default
+    initialize: {
+      onAuthStateChangedMutation: 'ON_AUTH_STATE_CHANGED_MUTATION',
+      onAuthStateChangedAction: 'onAuthStateChangedAction',
+      subscribeManually: false
+    },
+    ssr: false, // default
+    emulatorPort: 3000,
+    emulatorHost: 'http://localhost',
+  },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
