@@ -6,14 +6,16 @@
         <div class="sign-up__form__name">
           <label for="name">Name</label>
           <input v-model.trim="$v.name.$model" name="name" type="text" />
-          <div v-if="!$v.name.required && $v.name.dirty" class="error">
+          <div v-if="$v.name.$invalid && $v.name.$dirty" class="error">
             Name is required.
           </div>
         </div>
         <div class="sign-up__form__email">
           <label for="email">Email</label>
           <input v-model.trim="$v.correo.$model" name="email" type="email" />
-          <div v-if="!$v.correo.required" class="error">Email is required.</div>
+          <div v-if="$v.correo.$invalid && $v.correo.$dirty" class="error">
+            Email is required.
+          </div>
           <div v-if="!$v.correo.email" class="error">
             Must be a valid Email.
           </div>
@@ -25,7 +27,7 @@
             name="password"
             type="password"
           />
-          <div v-if="!$v.password.required" class="error">
+          <div v-if="$v.password.$invalid && $v.password.$dirty" class="error">
             Password is required.
           </div>
           <div v-if="!$v.password.minLength" class="error">
