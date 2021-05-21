@@ -21,6 +21,7 @@
     "firebase-admin": "^9.8.0",
     "nuxt": "^2.15.3",
     "v-calendar": "^2.3.0",
+    "vue-picture-input": "^2.1.6",
     "vuedraggable": "^2.24.3",
     "vuelidate": "^0.7.6"
   },

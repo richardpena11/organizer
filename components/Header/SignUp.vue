@@ -122,6 +122,17 @@ export default {
           .createUserWithEmailAndPassword(this.email, this.password)
           .then((userCredential) => {
             console.log(userCredential)
+            const user = this.$fire.auth.currentUser
+            user
+              .updateProfile({
+                displayName: 'Jane Q. User',
+              })
+              .then(() => {
+                console.log(user)
+              })
+              .catch((error) => {
+                console.log(error)
+              })
           })
           .catch((error) => {
             this.error = error.message
