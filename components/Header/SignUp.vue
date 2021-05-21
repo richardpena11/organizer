@@ -8,6 +8,7 @@
         class="sign-up__form"
         @submit.prevent="isSigningUp ? signUp() : signIn()"
       >
+        <!-- ---------- Profile Picture Input ---------- -->
         <picture-input
           v-if="isSigningUp"
           ref="pictureInput"
@@ -23,7 +24,7 @@
           }"
           @change="onChange"
         />
-
+        <!-- ---------- Name Input ---------- -->
         <div v-if="isSigningUp" class="sign-up__form__name">
           <label for="name">Name</label>
           <input v-model.trim="$v.name.$model" name="name" type="text" />
@@ -31,6 +32,7 @@
             Name is required.
           </span>
         </div>
+        <!-- ---------- Email Input ---------- -->
         <div class="sign-up__form__email">
           <label for="email">Email</label>
           <input v-model.trim="$v.email.$model" name="email" type="email" />
@@ -41,6 +43,7 @@
             Email is required.
           </span>
         </div>
+        <!-- ---------- Password Input ---------- -->
         <div class="sign-up__form__password">
           <label for="password">Password</label>
           <input
@@ -64,6 +67,7 @@
           </span>
         </div>
         <div class="sign-up__form__action">
+          <!-- ---------- Switch Sign Up/Sign In ---------- -->
           <div class="sign-up__form__action__switch">
             <span class="sign-up__form__action__switch__text">
               {{ isSigningUp ? 'Already' : "Don't" }} have an account? Then
@@ -81,6 +85,7 @@
               <v-btn color="blue" text @click="snackbar = false">Close</v-btn>
             </v-snackbar>
           </div>
+          <!-- ---------- Submit Form ---------- -->
           <button class="sign-up__form__action__submit">Submit</button>
         </div>
       </form>
