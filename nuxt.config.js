@@ -30,7 +30,7 @@ export default {
   plugins: [
     {src: '~plugins/v-calendar.js', ssr: false},
     {src: '~plugins/draggable.js', ssr: false},
-    {src: '~/plugins/vuelidate.js', ssr: false},
+    {src: '~/plugins/vuelidate.js', ssr: true},
     {src: '~/plugins/vue-picture-input.js', ssr: false}
   ],
 
