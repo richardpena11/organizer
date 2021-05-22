@@ -66,7 +66,8 @@ export default {
       measurementId: 'G-6M759SD2XD'
     },
     services: {
-      auth: true 
+      auth: true, 
+      storage: true, 
     }
   },
 

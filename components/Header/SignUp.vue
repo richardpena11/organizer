@@ -17,12 +17,12 @@
         radius="50"
         border="2px solid #000"
         accept="image/jpeg,image/png"
-        size="10"
+        size="2"
         :hide-change-button="true"
         :custom-strings="{
           drag: `<h2>Profile Picture</h2>`,
         }"
-        @change="onChange"
+        @change="onChangeProfilePicture"
       />
       <!-- ---------- Name Input ---------- -->
       <div v-if="isSigningUp" class="sign-up__form__name">
@@ -97,9 +97,11 @@ import { required, minLength, maxLength, email } from 'vuelidate/lib/validators'
 export default {
   data() {
     return {
-      password: '',
+      image: '',
+      imageBlob: undefined,
       name: '',
       email: '',
+      password: '',
       isSigningUp: true,
       error: '',
       snackbar: false,
@@ -120,10 +122,8 @@ export default {
     },
   },
   methods: {
-    onChange(image) {
-      console.log('New picture selected!')
+    onChangeProfilePicture(image) {
       if (image) {
-        console.log('Picture loaded.')
         this.image = image
       } else {
         console.log('FileReader API not supported: use the <form>, Luke!')
@@ -147,6 +147,53 @@ export default {
           })
       }
     },
+    uploadImage() {
+      console.log(this.image)
+      // Converting image/Base64 to Blob
+      const imageUrl = fetch(this.image)
+        .then((res) => res.blob())
+        .then((image) => {
+          // Uploading image/Blob to firebase Storage
+          const storageRef = this.$fire.storage.ref()
+          const imageRef = storageRef.child(`profile-pictures/${this.email}`)
+          const imageUrl = imageRef.put(image).then((snapshot) => {
+            console.log(snapshot)
+            // Getting Image Url from firebase Storage
+            const imageUrl = imageRef
+              .getDownloadURL()
+              .then((url) => {
+                return url
+              })
+              .catch((error) => {
+                console.log(error)
+              })
+            return imageUrl
+          })
+          return imageUrl
+        })
+      return imageUrl
+    },
+    async updatedUser() {
+      if (this.name) {
+        // Getting current user
+        const user = this.$fire.auth.currentUser
+        // Getting image URL
+        const imageUrl = await this.uploadImage()
+        console.log(imageUrl)
+        // Updating user with name and profile picture
+        user
+          .updateProfile({
+            displayName: this.name,
+            photoURL: imageUrl,
+          })
+          .then(() => {
+            console.log(user)
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      }
+    },
     signUp() {
       this.$v.$touch()
       if (!this.$v.$invalid) {
@@ -154,17 +201,7 @@ export default {
           .createUserWithEmailAndPassword(this.email, this.password)
           .then((userCredential) => {
             console.log(userCredential)
-            const user = this.$fire.auth.currentUser
-            user
-              .updateProfile({
-                displayName: 'Jane Q. User',
-              })
-              .then(() => {
-                console.log(user)
-              })
-              .catch((error) => {
-                console.log(error)
-              })
+            this.updatedUser()
           })
           .catch((error) => {
             this.error = error.message
@@ -178,12 +215,13 @@ export default {
 
 <style lang="scss" scoped>
 .sign-up {
-  background-color: white;
-  border-radius: 10px;
-  padding: 15px;
-  min-height: 475px;
-  font-family: 'Roboto', sans-serif;
   width: 320px;
+  min-height: 475px;
+  padding: 15px;
+  position: relative;
+  border-radius: 10px;
+  background-color: white;
+  font-family: 'Roboto', sans-serif;
   &__title {
     text-align: center;
     color: #001847;
