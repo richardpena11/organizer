@@ -15,7 +15,6 @@
         width="100"
         height="100"
         radius="50"
-        border="2px solid #000"
         accept="image/jpeg,image/png"
         size="2"
         :hide-change-button="true"
@@ -134,7 +133,7 @@ export default {
     },
     signIn() {
       this.$v.$touch()
-      if (!this.$v.email.$invalid || !this.$v.password.$invalid) {
+      if (!this.$v.email.$invalid && !this.$v.password.$invalid) {
         console.log('Sign In')
         this.$fire.auth
           .signInWithEmailAndPassword(this.email, this.password)
