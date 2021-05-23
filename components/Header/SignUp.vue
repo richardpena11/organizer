@@ -187,12 +187,7 @@ export default {
     saveUserInDatabase() {
       const user = this.$fire.auth.currentUser
       const { displayName, email, photoURL, uid } = user
-      console.log(displayName)
-      console.log(email)
-      console.log(photoURL)
-      console.log(uid)
       const db = this.$fire.firestore
-      console.log(db)
       db.collection('users')
         .doc(uid)
         .set({
@@ -207,10 +202,8 @@ export default {
           console.error('Error writing document: ', error)
         })
     },
-    async updatedUser() {
+    async updatedUser(user) {
       if (this.name) {
-        // Getting current user
-        const user = this.$fire.auth.currentUser
         // Getting image URL
         const imageUrl = await this.uploadImage()
         // Updating user with name and profile picture
@@ -233,7 +226,7 @@ export default {
         this.$fire.auth
           .createUserWithEmailAndPassword(this.email, this.password)
           .then((userCredential) => {
-            this.updatedUser()
+            this.updatedUser(userCredential.user)
           })
           .catch((error) => {
             this.error = error.message
