@@ -147,30 +147,43 @@ export default {
       }
     },
     uploadImage() {
-      console.log(this.image)
-      // Converting image/Base64 to Blob
-      const imageUrl = fetch(this.image)
-        .then((res) => res.blob())
-        .then((image) => {
-          // Uploading image/Blob to firebase Storage
-          const storageRef = this.$fire.storage.ref()
-          const imageRef = storageRef.child(`profile-pictures/${this.email}`)
-          const imageUrl = imageRef.put(image).then((snapshot) => {
-            console.log(snapshot)
-            // Getting Image Url from firebase Storage
-            const imageUrl = imageRef
-              .getDownloadURL()
-              .then((url) => {
-                return url
-              })
-              .catch((error) => {
-                console.log(error)
-              })
+      if (this.image) {
+        // Converting image/Base64 to Blob
+        const imageUrl = fetch(this.image)
+          .then((res) => res.blob())
+          .then((image) => {
+            // Uploading image/Blob to firebase Storage
+            const storageRef = this.$fire.storage.ref()
+            const imageRef = storageRef.child(`profile-pictures/${this.email}`)
+            const imageUrl = imageRef.put(image).then((snapshot) => {
+              console.log(snapshot)
+              // Getting Image Url from firebase Storage
+              const imageUrl = imageRef
+                .getDownloadURL()
+                .then((url) => {
+                  return url
+                })
+                .catch((error) => {
+                  console.log(error)
+                })
+              return imageUrl
+            })
             return imageUrl
           })
-          return imageUrl
+        return imageUrl
+      }
+      // Else get default_icon.png
+      const storageRef = this.$fire.storage.ref()
+      const imageRef = storageRef.child(`profile-pictures/default_icon.png`)
+      const defaultUrl = imageRef
+        .getDownloadURL()
+        .then((url) => {
+          return url
         })
-      return imageUrl
+        .catch((error) => {
+          console.log(error)
+        })
+      return defaultUrl
     },
     async updatedUser() {
       if (this.name) {
