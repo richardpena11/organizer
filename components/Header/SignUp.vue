@@ -134,11 +134,10 @@ export default {
     signIn() {
       this.$v.$touch()
       if (!this.$v.email.$invalid && !this.$v.password.$invalid) {
-        console.log('Sign In')
         this.$fire.auth
           .signInWithEmailAndPassword(this.email, this.password)
           .then((userCredential) => {
-            console.log(userCredential)
+            // Code after sign in
           })
           .catch((error) => {
             this.error = error.message
@@ -157,7 +156,6 @@ export default {
             const storageRef = this.$fire.storage.ref()
             const imageRef = storageRef.child(`profile-pictures/${this.email}`)
             const imageUrl = imageRef.put(image).then((snapshot) => {
-              console.log(snapshot)
               // Getting Image Url from firebase Storage
               const imageUrl = imageRef
                 .getDownloadURL()
@@ -186,13 +184,35 @@ export default {
         })
       return defaultUrl
     },
+    saveUserInDatabase() {
+      const user = this.$fire.auth.currentUser
+      const { displayName, email, photoURL, uid } = user
+      console.log(displayName)
+      console.log(email)
+      console.log(photoURL)
+      console.log(uid)
+      const db = this.$fire.firestore
+      console.log(db)
+      db.collection('users')
+        .doc(uid)
+        .set({
+          displayName,
+          email,
+          photoURL,
+        })
+        .then(() => {
+          console.log('Document successfully written!')
+        })
+        .catch((error) => {
+          console.error('Error writing document: ', error)
+        })
+    },
     async updatedUser() {
       if (this.name) {
         // Getting current user
         const user = this.$fire.auth.currentUser
         // Getting image URL
         const imageUrl = await this.uploadImage()
-        console.log(imageUrl)
         // Updating user with name and profile picture
         user
           .updateProfile({
@@ -200,7 +220,7 @@ export default {
             photoURL: imageUrl,
           })
           .then(() => {
-            console.log(user)
+            this.saveUserInDatabase()
           })
           .catch((error) => {
             console.log(error)
@@ -213,7 +233,6 @@ export default {
         this.$fire.auth
           .createUserWithEmailAndPassword(this.email, this.password)
           .then((userCredential) => {
-            console.log(userCredential)
             this.updatedUser()
           })
           .catch((error) => {
