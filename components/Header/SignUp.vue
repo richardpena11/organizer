@@ -26,19 +26,22 @@
       <!-- ---------- Name Input ---------- -->
       <div v-if="isSigningUp" class="sign-up__form__name">
         <label for="name">Name</label>
-        <input v-model.trim="$v.name.$model" name="name" type="text" />
-        <span v-if="$v.name.$invalid && $v.name.$dirty" class="error">
+        <input v-model.trim="$v.user.name.$model" name="name" type="text" />
+        <span v-if="$v.user.name.$invalid && $v.user.name.$dirty" class="error">
           Name is required.
         </span>
       </div>
       <!-- ---------- Email Input ---------- -->
       <div class="sign-up__form__email">
         <label for="email">Email</label>
-        <input v-model.trim="$v.email.$model" name="email" type="email" />
-        <span v-if="!$v.email.email" class="error">
+        <input v-model.trim="$v.user.email.$model" name="email" type="email" />
+        <span v-if="!$v.user.email.email" class="error">
           Must be a valid Email.
         </span>
-        <span v-else-if="$v.email.$invalid && $v.email.$dirty" class="error">
+        <span
+          v-else-if="$v.user.email.$invalid && $v.user.email.$dirty"
+          class="error"
+        >
           Email is required.
         </span>
       </div>
@@ -46,20 +49,20 @@
       <div class="sign-up__form__password">
         <label for="password">Password</label>
         <input
-          v-model.trim="$v.password.$model"
+          v-model.trim="$v.user.password.$model"
           name="password"
           type="password"
         />
-        <span v-if="!$v.password.maxLength" class="error">
+        <span v-if="!$v.user.password.maxLength" class="error">
           Password must not have more than
-          {{ $v.password.$params.maxLength.max }} characters.
+          {{ $v.user.password.$params.maxLength.max }} characters.
         </span>
-        <span v-else-if="!$v.password.minLength" class="error">
+        <span v-else-if="!$v.user.password.minLength" class="error">
           Password must have at least
-          {{ $v.password.$params.minLength.min }} characters.
+          {{ $v.user.password.$params.minLength.min }} characters.
         </span>
         <span
-          v-else-if="$v.password.$invalid && $v.password.$dirty"
+          v-else-if="$v.user.password.$invalid && $v.user.password.$dirty"
           class="error"
         >
           Password is required.
@@ -78,10 +81,10 @@
             </span>
           </span>
         </div>
-        <div v-if="error" class="sign-up__form__action__error">
-          <v-snackbar v-model="snackbar" :timeout="-1" fixed top centered>
-            {{ error }}
-            <v-btn color="blue" text @click="snackbar = false">Close</v-btn>
+        <div v-if="errorSnackbar" class="sign-up__form__action__error">
+          <v-snackbar v-model="errorSnackbar" :timeout="-1" fixed top centered>
+            {{ errorSnackbar }}
+            <v-btn color="blue" text @click="deleteErrorSnackbar">Close</v-btn>
           </v-snackbar>
         </div>
         <!-- ---------- Submit Form ---------- -->
@@ -96,142 +99,60 @@ import { required, minLength, maxLength, email } from 'vuelidate/lib/validators'
 export default {
   data() {
     return {
-      image: '',
-      imageBlob: undefined,
-      name: '',
-      email: '',
-      password: '',
+      user: {
+        image: '',
+        name: '',
+        email: '',
+        password: '',
+      },
       isSigningUp: true,
-      error: '',
-      snackbar: false,
     }
   },
   validations: {
-    password: {
-      required,
-      minLength: minLength(6),
-      maxLength: maxLength(10),
+    user: {
+      password: {
+        required,
+        minLength: minLength(6),
+        maxLength: maxLength(10),
+      },
+      name: {
+        required,
+      },
+      email: {
+        required,
+        email,
+      },
     },
-    name: {
-      required,
-    },
-    email: {
-      required,
-      email,
+  },
+  computed: {
+    errorSnackbar() {
+      return this.$store.state.errorSnackbar
     },
   },
   methods: {
     onChangeProfilePicture(image) {
       if (image) {
-        this.image = image
+        this.user.image = image
       } else {
         console.log('FileReader API not supported: use the <form>, Luke!')
       }
+    },
+    deleteErrorSnackbar() {
+      this.$store.commit('updatedErrorSnackbar', '')
     },
     changeSignUp() {
       this.isSigningUp ? (this.isSigningUp = false) : (this.isSigningUp = true)
     },
     signIn() {
       this.$v.$touch()
-      if (!this.$v.email.$invalid && !this.$v.password.$invalid) {
-        this.$fire.auth
-          .signInWithEmailAndPassword(this.email, this.password)
-          .then((userCredential) => {
-            // Code after sign in
-          })
-          .catch((error) => {
-            this.error = error.message
-            this.snackbar = true
-          })
-      }
-    },
-    uploadImage() {
-      // If user provide image
-      if (this.image) {
-        // Converting image/Base64 to Blob
-        const imageUrl = fetch(this.image)
-          .then((res) => res.blob())
-          .then((image) => {
-            // Uploading image/Blob to firebase Storage
-            const storageRef = this.$fire.storage.ref()
-            const imageRef = storageRef.child(`profile-pictures/${this.email}`)
-            const imageUrl = imageRef.put(image).then((snapshot) => {
-              // Getting Image Url from firebase Storage
-              const imageUrl = imageRef
-                .getDownloadURL()
-                .then((url) => {
-                  return url
-                })
-                .catch((error) => {
-                  console.log(error)
-                })
-              return imageUrl
-            })
-            return imageUrl
-          })
-        return imageUrl
-      }
-      // Else if user doesn't provide image then get default_icon.png
-      const storageRef = this.$fire.storage.ref()
-      const imageRef = storageRef.child(`profile-pictures/default_icon.png`)
-      const defaultUrl = imageRef
-        .getDownloadURL()
-        .then((url) => {
-          return url
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-      return defaultUrl
-    },
-    saveUserInDatabase() {
-      const user = this.$fire.auth.currentUser
-      const { displayName, email, photoURL, uid } = user
-      const db = this.$fire.firestore
-      db.collection('users')
-        .doc(uid)
-        .set({
-          displayName,
-          email,
-          photoURL,
-        })
-        .then(() => {
-          console.log('Document successfully written!')
-        })
-        .catch((error) => {
-          console.error('Error writing document: ', error)
-        })
-    },
-    async updatedUser(user) {
-      if (this.name) {
-        // Getting image URL
-        const imageUrl = await this.uploadImage()
-        // Updating user with name and profile picture
-        user
-          .updateProfile({
-            displayName: this.name,
-            photoURL: imageUrl,
-          })
-          .then(() => {
-            this.saveUserInDatabase()
-          })
-          .catch((error) => {
-            console.log(error)
-          })
+      if (!this.$v.user.email.$invalid && !this.$v.user.password.$invalid) {
+        this.$store.dispatch('signIn', this.user)
       }
     },
     signUp() {
       this.$v.$touch()
-      if (!this.$v.$invalid) {
-        this.$fire.auth
-          .createUserWithEmailAndPassword(this.email, this.password)
-          .then((userCredential) => {
-            this.updatedUser(userCredential.user)
-          })
-          .catch((error) => {
-            this.error = error.message
-            this.snackbar = true
-          })
+      if (!this.$v.user.$invalid) {
+        this.$store.dispatch('signUp', this.user)
       }
     },
   },
