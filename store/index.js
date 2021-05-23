@@ -27,6 +27,7 @@ export const actions = {
       .signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
         commit('updatedUser', userCredential.user)
+        this.$router.push('/dashboard')
       })
       .catch((error) => {
         commit('updatedErrorSnackbar', error.message)
@@ -110,6 +111,7 @@ export const actions = {
           image,
         }
         dispatch('updatedUser', userInfo)
+        this.$router.push('/dashboard')
       })
       .catch((error) => {
         commit('updatedErrorSnackbar', error.message)

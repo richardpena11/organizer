@@ -55,6 +55,10 @@ export default {
     '@nuxtjs/firebase',
   ],
 
+  router: {
+    middleware: ['auth']
+  },  
+
   firebase: {
     config: {
       apiKey: 'AIzaSyBYS7uWhmm1oDZowwZv0Ftu_cASKmxO-m4',

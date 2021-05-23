@@ -1,5 +1,6 @@
 <template>
   <div class="header-container">
+    <div class="dashboard"></div>
     <header class="header">
       <Hero />
 
@@ -31,7 +32,7 @@ export default {
   .header {
     max-width: 1000px;
     width: 90%;
-    height: 80%;
+    height: 90%;
     display: flex;
     justify-content: space-between;
     align-items: center;
