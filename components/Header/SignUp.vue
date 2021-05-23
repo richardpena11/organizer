@@ -147,6 +147,7 @@ export default {
       }
     },
     uploadImage() {
+      // If user provide image
       if (this.image) {
         // Converting image/Base64 to Blob
         const imageUrl = fetch(this.image)
@@ -172,7 +173,7 @@ export default {
           })
         return imageUrl
       }
-      // Else get default_icon.png
+      // Else if user doesn't provide image then get default_icon.png
       const storageRef = this.$fire.storage.ref()
       const imageRef = storageRef.child(`profile-pictures/default_icon.png`)
       const defaultUrl = imageRef
