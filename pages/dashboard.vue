@@ -1,5 +1,5 @@
 <template>
-  <div>Hola</div>
+  <div>Hola testing</div>
 </template>
 
 <script>
