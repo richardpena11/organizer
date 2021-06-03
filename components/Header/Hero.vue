@@ -23,7 +23,7 @@ export default {}
 .hero {
   width: 600px;
   height: 80%; // This depend of .header-container clip-path
-  color: #fff;
+  color: var(--white-color);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -36,7 +36,7 @@ export default {}
     padding: 0px 20px;
     margin-top: 10px;
     margin-bottom: 15px;
-    border-left: 3px solid #ffb800;
+    border-left: 3px solid var(--yellow-color);
     display: flex;
     flex-direction: column;
     justify-content: space-between;

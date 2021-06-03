@@ -166,11 +166,11 @@ export default {
   padding: 15px;
   position: relative;
   border-radius: 10px;
-  background-color: white;
+  background-color: var(--white-color);
   font-family: 'Roboto', sans-serif;
   &__title {
     text-align: center;
-    color: #001847;
+    color: var(--dark-color);
     font-weight: 700;
     font-size: 24px;
   }
@@ -184,7 +184,7 @@ export default {
       display: flex;
       flex-direction: column;
       position: relative;
-      color: #001847;
+      color: var(--dark-color);
       font-weight: 800;
       margin-top: 10px;
       label {
@@ -193,9 +193,9 @@ export default {
       input {
         height: 30px;
         padding: 0px 10px;
-        border: #0f5ef7 1.5px solid;
+        border: var(--dark-color) 1px solid;
         border-radius: 10px;
-        background-color: #f2f5fd;
+        background-color: var(--shadow-brighter-color);
         font-weight: 400;
         font-size: 14px;
       }
@@ -203,7 +203,7 @@ export default {
         position: absolute;
         bottom: -20px;
         right: 0;
-        color: red;
+        color: var(--red-color);
         font-weight: 400;
         font-size: 12px;
         margin-top: 5px;
@@ -228,17 +228,17 @@ export default {
           font-weight: 700;
           text-decoration: none;
           cursor: pointer;
-          color: #0f5ef7;
+          color: var(--blue-color);
           transition: color 500ms;
           &:hover {
-            color: #001847;
+            color: var(--dark-color);
           }
         }
       }
       &__submit {
-        background-color: #00bc8b;
+        background-color: var(--green-color);
         font-family: 'Roboto', sans-serif;
-        color: white;
+        color: var(--white-color);
         padding: 8px 0;
         text-align: center;
         width: 100%;
