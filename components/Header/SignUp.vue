@@ -170,7 +170,7 @@ export default {
   font-family: 'Roboto', sans-serif;
   &__title {
     text-align: center;
-    color: var(--dark-color);
+    color: var(--dark-blue-color);
     font-weight: 700;
     font-size: 24px;
   }
@@ -184,7 +184,7 @@ export default {
       display: flex;
       flex-direction: column;
       position: relative;
-      color: var(--dark-color);
+      color: var(--dark-blue-color);
       font-weight: 800;
       margin-top: 10px;
       label {
@@ -193,7 +193,7 @@ export default {
       input {
         height: 30px;
         padding: 0px 10px;
-        border: var(--dark-color) 1px solid;
+        border: var(--dark-blue-color) 1px solid;
         border-radius: 10px;
         background-color: var(--shadow-brighter-color);
         font-weight: 400;
@@ -231,7 +231,7 @@ export default {
           color: var(--blue-color);
           transition: color 500ms;
           &:hover {
-            color: var(--dark-color);
+            color: var(--dark-blue-color);
           }
         }
       }

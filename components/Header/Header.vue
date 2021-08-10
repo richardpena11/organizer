@@ -27,7 +27,11 @@ export default {
   display: flex;
   justify-content: space-between;
   justify-content: center;
-  background: linear-gradient(to right, var(--dark-color), var(--blue-color));
+  background: linear-gradient(
+    to right,
+    var(--dark-blue-color),
+    var(--blue-color)
+  );
   clip-path: polygon(100% 0, 100% 80%, 50% 100%, 0 80%, 0 0);
   .header {
     max-width: 1000px;
