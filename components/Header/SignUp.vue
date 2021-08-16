@@ -75,7 +75,7 @@
             {{ isSigningUp ? 'Already' : "Don't" }} have an account? Then
             <span
               class="sign-up__form__action__switch__link"
-              @click="changeSignUp"
+              @click="switchSignUp"
             >
               {{ !isSigningUp ? 'Sign Up' : 'Sign in' }}
             </span>
@@ -140,7 +140,7 @@ export default {
     deleteErrorSnackbar() {
       this.$store.commit('updatedErrorSnackbar', '')
     },
-    changeSignUp() {
+    switchSignUp() {
       this.isSigningUp ? (this.isSigningUp = false) : (this.isSigningUp = true)
     },
     signIn() {

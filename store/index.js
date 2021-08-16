@@ -35,6 +35,9 @@ export const actions = {
   },
   uploadImage({ state }, userInfo) {
     if (userInfo.image) {
+      
+      // The Blob is a file-like object of immutable, raw data; they can be read as text or binary data, or converted into a ReadableStream so its methods can be used for processing the data.
+
       // Converting image/Base64 to Blob
       const imageUrl = fetch(userInfo.image)
         .then((res) => res.blob())
@@ -79,7 +82,7 @@ export const actions = {
         console.error('Error writing document: ', error)
       })
   },
-  async updatedUser({ commit, dispatch }, userInfo) {
+  async saveUserAndProfilePicture({ commit, dispatch }, userInfo) {
     console.log(userInfo)
     if (userInfo.name) {
       // Getting image URL
@@ -110,7 +113,7 @@ export const actions = {
           email,
           image,
         }
-        dispatch('updatedUser', userInfo)
+        dispatch('saveUserAndProfilePicture', userInfo)
         this.$router.push('/dashboard')
       })
       .catch((error) => {
