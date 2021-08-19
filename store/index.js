@@ -5,7 +5,8 @@ export const state = () => ({
     photoURL: '',
     uid: '',
   },
-  errorSnackbar: '',
+  credential: '',
+  FBApiKey: 'AIzaSyBYS7uWhmm1oDZowwZv0Ftu_cASKmxO-m4',
 })
 
 export const mutations = {
@@ -19,14 +20,19 @@ export const mutations = {
   updatedErrorSnackbar(state, error) {
     state.errorSnackbar = error
   },
+
+  updateCredential(state, credential) {
+    state.credential = credential
+  },
 }
 
 export const actions = {
-  signIn({ commit }, { email, password }) {
+  signIn({ commit, dispatch }, { email, password }) {
     this.$fire.auth
       .signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
         commit('updatedUser', userCredential.user)
+        dispatch('createRefreshToken', userCredential)
         this.$router.push('/dashboard')
       })
       .catch((error) => {
@@ -116,4 +122,28 @@ export const actions = {
         commit('updatedErrorSnackbar', error.message)
       })
   },
+  createRefreshToken({ state, commit }, userCredential) {
+    // this.$fire.auth.currentUser
+    //   .getIdToken(/* forceRefresh */ true)
+    //   .then((idToken) => {
+    //     state.idToken = idToken
+    //     localStorage.setItem('idToken', this.$fire.auth.currentUser)
+    //   })
+    // fetch(
+    //   `
+    //     https://securetoken.googleapis.com/v1/token?key=${state.FBApiKey}&grant_type=refresh_token&refresh_token=${userInfo.refreshToken}
+    //   `,
+    //   {
+    //     method: 'POST',
+    //   }
+    // )
+    //   .then((res) => res.json())
+    //   .then((authData) => {
+    //     console.log(authData)
+    //   })
+    //   .catch((error) => {
+    //     console.log(error)
+    //   })
+  },
+  checkIfUserWasLogedIn() {},
 }
