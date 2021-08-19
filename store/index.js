@@ -33,9 +33,8 @@ export const actions = {
         commit('updatedErrorSnackbar', error.message)
       })
   },
-  uploadImage({ state }, userInfo) {
+  uploadImageToStorage({ state }, userInfo) {
     if (userInfo.image) {
-      
       // The Blob is a file-like object of immutable, raw data; they can be read as text or binary data, or converted into a ReadableStream so its methods can be used for processing the data.
 
       // Converting image/Base64 to Blob
@@ -44,9 +43,7 @@ export const actions = {
         .then((imageBlob) => {
           // Uploading image/Blob to firebase Storage
           const storageRef = this.$fire.storage.ref()
-          const imageRef = storageRef.child(
-            `profile-pictures/${userInfo.email}`
-          )
+          const imageRef = storageRef.child(`profile-pictures/${userInfo.uid}`)
           const imageUrl = imageRef.put(imageBlob).then((snapshot) => {
             // Getting Image Url from firebase Storage
             const imageUrl = imageRef
@@ -76,19 +73,16 @@ export const actions = {
       })
       .then(() => {
         commit('updatedUser', user)
-        console.log('Document successfully written!')
       })
       .catch((error) => {
         console.error('Error writing document: ', error)
       })
   },
   async saveUserAndProfilePicture({ commit, dispatch }, userInfo) {
-    console.log(userInfo)
     if (userInfo.name) {
       // Getting image URL
-      const imageUrl = await dispatch('uploadImage', userInfo)
+      const imageUrl = await dispatch('uploadImageToStorage', userInfo)
       // Updating user with name and profile picture
-      console.log(userInfo)
       userInfo.credential
         .updateProfile({
           displayName: userInfo.name,
@@ -109,10 +103,12 @@ export const actions = {
       .then((userCredential) => {
         const userInfo = {
           credential: userCredential.user,
+          uid: userCredential.user.uid,
           name,
           email,
           image,
         }
+        console.log(userInfo)
         dispatch('saveUserAndProfilePicture', userInfo)
         this.$router.push('/dashboard')
       })
