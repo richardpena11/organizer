@@ -13,13 +13,13 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap",
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap',
       },
       {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap",
-      }
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap',
+      },
     ],
   },
 
@@ -28,11 +28,11 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    {src: '~plugins/v-calendar.js', ssr: false},
-    {src: '~plugins/draggable.js', ssr: false},
-    {src: '~/plugins/vue-resource.js', ssr: true},
-    {src: '~/plugins/vuelidate.js', ssr: true},
-    {src: '~/plugins/vue-picture-input.js', ssr: false},
+    { src: '~plugins/v-calendar.js', ssr: false },
+    { src: '~plugins/draggable.js', ssr: false },
+    { src: '~/plugins/vue-resource.js', ssr: true },
+    { src: '~/plugins/vuelidate.js', ssr: true },
+    { src: '~/plugins/vue-picture-input.js', ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -54,11 +54,28 @@ export default {
     '@nuxt/content',
     // https://firebase.nuxtjs.org/guide/getting-started
     '@nuxtjs/firebase',
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
   ],
 
+  auth: {
+    redirect: {
+      login: '/',
+      logout: '/',
+      callback: '/login',
+      home: '/dashboard',
+    },
+    strategies: {
+      auth0: {
+        domain: 'schimed.us.auth0.com',
+        clientId: '6x8QEFtoDmpFSEJ0FNiYh51v5wlnlp46',
+      },
+    },
+  },
+
   router: {
-    middleware: ['auth']
-  },  
+    middleware: ['auth'],
+  },
 
   firebase: {
     config: {
@@ -68,26 +85,26 @@ export default {
       storageBucket: 'organizer-87011.appspot.com',
       messagingSenderId: '720468172308',
       appId: '1:720468172308:web:494001d2747627546ed101',
-      measurementId: 'G-6M759SD2XD'
+      measurementId: 'G-6M759SD2XD',
     },
     services: {
       auth: true,
       storage: true,
       firestore: true,
-    }
+    },
   },
 
-  auth: {
-    persistence: 'local', // default
-    initialize: {
-      onAuthStateChangedMutation: 'ON_AUTH_STATE_CHANGED_MUTATION',
-      onAuthStateChangedAction: 'onAuthStateChangedAction',
-      subscribeManually: false
-    },
-    ssr: false, // default
-    emulatorPort: 3000,
-    emulatorHost: 'http://localhost',
-  },
+  // auth: {
+  //   persistence: 'local', // default
+  //   initialize: {
+  //     onAuthStateChangedMutation: 'ON_AUTH_STATE_CHANGED_MUTATION',
+  //     onAuthStateChangedAction: 'onAuthStateChangedAction',
+  //     subscribeManually: false,
+  //   },
+  //   ssr: false, // default
+  //   emulatorPort: 3000,
+  //   emulatorHost: 'http://localhost',
+  // },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
@@ -122,16 +139,16 @@ export default {
   build: {
     extend(config, ctx) {
       if (ctx.dev && ctx.isClient) {
-          config.module.rules.push({
-              enforce : 'pre',
-              test    : /\.(js|vue)$/,
-              loader  : 'eslint-loader',
-              exclude : /(node_modules)/,
-              options : {
-                  fix : true
-              }
-          });
+        config.module.rules.push({
+          enforce: 'pre',
+          test: /\.(js|vue)$/,
+          loader: 'eslint-loader',
+          exclude: /(node_modules)/,
+          options: {
+            fix: true,
+          },
+        })
       }
-    }
+    },
   },
 }

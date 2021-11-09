@@ -32,10 +32,8 @@
 
 <script>
 export default {
-  beforeCreate() {
-    // this.$store.dispatch('checkIfUserWasLogedIn')
-  },
   layout: 'dashboard',
+  auth: true,
 }
 </script>
 
