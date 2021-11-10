@@ -23,7 +23,7 @@
     </div>
     <div>
       <v-btn @click="logOut">Log Out</v-btn>
-      <v-btn @click="logOut">Create a project</v-btn>
+      <v-btn @click="createProject">Create a project</v-btn>
     </div>
   </div>
 </template>
@@ -39,15 +39,16 @@ export default {
     const newUser = Object.assign({}, user)
 
     // Getting user data in firebase to check if basedata
-    this.$store.dispatch('getUserDataFromDB', {
-      collection: 'users',
-      document: newUser.email,
-      user: newUser,
-    })
+    this.$store.dispatch('getUserDataFromDB', newUser)
   },
   methods: {
     logOut() {
       this.$auth.logout()
+    },
+
+    createProject() {
+      const user = this.$auth.$state.user
+      this.$store.dispatch('createNewProject', user)
     },
   },
 }
