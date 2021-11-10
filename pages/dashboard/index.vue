@@ -1,12 +1,6 @@
 <template>
   <div class="projects-container">
-    <div class="projects" v-for="item in 3" :key="item">
-      <div class="projects__category">
-        <span class="projects__category__title">All projects</span>
-        <div class="projects__category__dropdown">
-          <v-icon>mdi-chevron-down</v-icon>
-        </div>
-      </div>
+    <div class="projects">
       <div class="projects__cards">
         <div class="projects__cards__new-card projects__cards__card">
           <div class="projects__cards__new-card__title">
@@ -16,7 +10,7 @@
             <v-icon>mdi-plus</v-icon>
           </div>
         </div>
-        <div class="projects__cards__card" v-for="item in 2" :key="item">
+        <div v-for="i in 2" :key="i" class="projects__cards__card">
           <span class="projects__cards__card__title">Millionaie Project</span>
           <span class="projects__cards__card__description">
             Small description
@@ -27,13 +21,35 @@
         </div>
       </div>
     </div>
+    <div>
+      <v-btn @click="logOut">Log Out</v-btn>
+      <v-btn @click="logOut">Create a project</v-btn>
+    </div>
   </div>
 </template>
 
 <script>
+/* eslint-disable no-console */
 export default {
   layout: 'dashboard',
   auth: true,
+  beforeCreate() {
+    // Get User object
+    const user = this.$auth.$state.user
+    const newUser = Object.assign({}, user)
+
+    // Getting user data in firebase to check if basedata
+    this.$store.dispatch('getUserDataFromDB', {
+      collection: 'users',
+      document: newUser.email,
+      user: newUser,
+    })
+  },
+  methods: {
+    logOut() {
+      this.$auth.logout()
+    },
+  },
 }
 </script>
 

@@ -69,6 +69,7 @@ export default {
       auth0: {
         domain: 'schimed.us.auth0.com',
         clientId: '6x8QEFtoDmpFSEJ0FNiYh51v5wlnlp46',
+        logoutRedirectUri: 'http://localhost:3000',
       },
     },
   },
