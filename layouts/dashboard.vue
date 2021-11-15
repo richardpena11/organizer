@@ -15,7 +15,7 @@
         </div>
       </div>
     </div>
-    <div class="left-menu">
+    <!-- <div class="left-menu">
       <div class="left-menu__upper">
         <v-icon>mdi-calendar-text</v-icon>
       </div>
@@ -29,7 +29,7 @@
       <div class="left-menu__lower">
         <v-icon>mdi-logout-variant</v-icon>
       </div>
-    </div>
+    </div> -->
     <Nuxt class="content" />
   </nav>
 </template>
@@ -40,17 +40,17 @@ export default {}
 
 <style lang="scss" scoped>
 .top-menu {
-  height: 80px;
-  width: calc(100% - 80px);
-  padding: 0px 50px;
+  height: 10%;
+  width: 100%;
+  padding: 2% 50px;
   position: fixed;
   top: 0;
-  left: 80px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border: 1px gray solid;
   &__title {
-    font-size: 28px;
+    font-size: 22px;
   }
   &__profile {
     width: 175px;
@@ -73,48 +73,47 @@ export default {}
   }
 }
 
-.left-menu {
-  height: 100vh;
-  width: 80px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: var(--white-color);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border-right: 2px solid var(--shadow-3-color);
-  > div {
-    display: flex;
-    justify-content: center;
-  }
-  i {
-    color: var(--dark-blue-color);
-    font-size: 35px;
-    padding: 20px;
-    &:hover {
-      cursor: pointer;
-      background: var(--shadow-2-color);
-    }
-  }
-  &__upper {
-    border-bottom: 2px solid var(--shadow-3-color);
-  }
-  &__center {
-    flex-direction: column;
-    justify-content: center;
-  }
-  &__lower {
-    border-top: 2px solid var(--shadow-3-color);
-  }
-}
+// .left-menu {
+//   height: 100vh;
+//   width: 80px;
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   background: var(--white-color);
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: space-between;
+//   border-right: 2px solid var(--shadow-3-color);
+//   > div {
+//     display: flex;
+//     justify-content: center;
+//   }
+//   i {
+//     color: var(--dark-blue-color);
+//     font-size: 35px;
+//     padding: 20px;
+//     &:hover {
+//       cursor: pointer;
+//       background: var(--shadow-2-color);
+//     }
+//   }
+//   &__upper {
+//     border-bottom: 2px solid var(--shadow-3-color);
+//   }
+//   &__center {
+//     flex-direction: column;
+//     justify-content: center;
+//   }
+//   &__lower {
+//     border-top: 2px solid var(--shadow-3-color);
+//   }
+// }
 
 .content {
   width: calc(100vw - 80px);
   height: calc(100vh - 80px);
   position: relative;
-  top: 80px;
-  left: 80px;
+  top: 40px;
   padding: 30px;
 }
 </style>

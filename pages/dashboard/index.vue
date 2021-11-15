@@ -21,6 +21,11 @@
         </div>
       </div>
     </div>
+    <div class="project-display">
+      <div class="task-list"></div>
+      <div class="project-info"></div>
+      <div class="project-users-list"></div>
+    </div>
     <div>
       <v-btn @click="logOut">Log Out</v-btn>
       <v-btn @click="createProject">Create a project</v-btn>
@@ -58,31 +63,17 @@ export default {
 .projects-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
   .projects {
     margin: 15px 0;
-    &__category {
-      margin-bottom: 15px;
-      display: flex;
-      align-items: center;
-      &__title {
-        font-size: 16px;
-        font-weight: 700;
-      }
-      &__dropdown {
-        margin: 0 10px;
-        border-radius: 50%;
-        background: var(--ligth-blue-color);
-      }
-    }
+    height: 35%;
     &__cards {
       display: flex;
       justify-content: space-around;
+      height: 100%;
       &__card {
-        height: 200px;
-        max-width: 350px;
-        width: 30%;
-        padding-left: 30px;
+        height: 80%;
+        width: 25%;
+        padding: 2.5% 0 2.5% 3%;
         display: flex;
         flex-direction: column;
         justify-content: center;
