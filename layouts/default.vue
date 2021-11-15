@@ -21,6 +21,6 @@
   --gray-color: #808ca3;
   --shadow-1-color: #f4f7ff;
   --shadow-2-color: #f2f5fd;
-  --shadow-3-color: #e8ecf6;
+  --shadow-3-color: #ccd1dd;
 }
 </style>

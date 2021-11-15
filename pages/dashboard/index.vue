@@ -20,15 +20,38 @@
           </span>
         </div>
       </div>
-    </div>
-    <div class="project-display">
-      <div class="task-list"></div>
-      <div class="project-info"></div>
-      <div class="project-users-list"></div>
+      <div class="project-display">
+        <div class="task-list">
+          <h1 class="task-list__title">Task List</h1>
+          <div class="task-list__item">
+            <div class="task-list__item__date">
+              <span>04</span>
+              <span>10</span>
+            </div>
+            <div class="task-list__item__info">
+              <div class="task-list__item__info__description">
+                <h4>Task to complete</h4>
+                <span>description</span>
+              </div>
+              <div class="task-list__item__status">
+                <v-icon>mdi-check-circle</v-icon>
+                <v-icon>mdi-check-circle</v-icon>
+                <v-icon>mdi-check-circle</v-icon>
+              </div>
+            </div>
+          </div>
+          <v-btn class="task-list__add-new">
+            <v-icon>mdi-plus</v-icon>
+            <h4>Add new task</h4>
+          </v-btn>
+        </div>
+        <div class="project-info"></div>
+        <div class="project-users-list"></div>
+      </div>
     </div>
     <div>
-      <v-btn @click="logOut">Log Out</v-btn>
-      <v-btn @click="createProject">Create a project</v-btn>
+      <!-- <v-btn @click="logOut">Log Out</v-btn>
+      <v-btn @click="createProject">Create a project</v-btn> -->
     </div>
   </div>
 </template>
@@ -104,6 +127,59 @@ export default {
           i {
             color: var(--blue-color);
             font-size: 80px;
+          }
+        }
+      }
+    }
+    .project-display {
+      height: 65%;
+      .task-list {
+        width: 25%;
+        background-color: var(--ligth-blue-color);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0% 1%;
+        &__title {
+          text-align: center;
+          font-size: 22px;
+          margin-top: 5%;
+          margin-bottom: 10%;
+        }
+        &__item {
+          display: flex;
+          width: 100%;
+          padding-bottom: 5%;
+          border-bottom: 2px solid var(--shadow-3-color);
+          &__date {
+            display: flex;
+            flex-direction: column;
+            background-color: var(--blue-color);
+            color: white;
+            padding: 1.5% 3%;
+            margin-right: 3%;
+            font-size: 0.9rem;
+          }
+          &__info {
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+            &__description {
+              display: flex;
+              flex-direction: column;
+            }
+          }
+        }
+        &__add-new {
+          margin: 5%;
+          width: 100%;
+          color: white;
+          background-color: var(--blue-color);
+          display: flex;
+          justify-content: flex-start;
+          h4 {
+            margin-left: 18%;
+            text-transform: capitalize;
           }
         }
       }
