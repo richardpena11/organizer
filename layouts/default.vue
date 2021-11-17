@@ -9,6 +9,7 @@
 <style lang="scss">
 * {
   font-family: 'Roboto', sans-serif;
+  box-sizing: border-box;
 }
 :root {
   --white-color: #ffffff;

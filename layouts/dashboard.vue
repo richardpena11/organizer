@@ -1,5 +1,5 @@
 <template>
-  <nav>
+  <div>
     <div class="top-menu">
       <h1 class="top-menu__title">Dashboard</h1>
       <div class="top-menu__profile">
@@ -15,23 +15,29 @@
         </div>
       </div>
     </div>
-    <!-- <div class="left-menu">
-      <div class="left-menu__upper">
-        <v-icon>mdi-calendar-text</v-icon>
+    <div class="content">
+      <div class="projects__cards">
+        <div class="projects__cards__new-card projects__cards__card">
+          <div class="projects__cards__new-card__title">
+            Create a new project
+          </div>
+          <div class="projects__cards__new-card__plus">
+            <v-icon>mdi-plus</v-icon>
+          </div>
+        </div>
+        <div v-for="i in 2" :key="i" class="projects__cards__card">
+          <span class="projects__cards__card__title">Millionaie Project</span>
+          <span class="projects__cards__card__description">
+            Small description
+          </span>
+          <span class="projects__cards__card__date">
+            Finish date: 06/15/2021
+          </span>
+        </div>
       </div>
-
-      <div class="left-menu__center">
-        <v-icon>mdi-home</v-icon>
-        <v-icon>mdi-account</v-icon>
-        <v-icon>mdi-message</v-icon>
-      </div>
-
-      <div class="left-menu__lower">
-        <v-icon>mdi-logout-variant</v-icon>
-      </div>
-    </div> -->
-    <Nuxt class="content" />
-  </nav>
+      <Nuxt />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -74,42 +80,51 @@ export default {}
   }
 }
 
-// .left-menu {
-//   height: 100vh;
-//   width: 80px;
-//   position: fixed;
-//   top: 0;
-//   left: 0;
-//   background: var(--white-color);
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: space-between;
-//   border-right: 2px solid var(--shadow-3-color);
-//   > div {
-//     display: flex;
-//     justify-content: center;
-//   }
-//   i {
-//     color: var(--dark-blue-color);
-//     font-size: 35px;
-//     padding: 20px;
-//     &:hover {
-//       cursor: pointer;
-//       background: var(--shadow-2-color);
-//     }
-//   }
-//   &__upper {
-//     border-bottom: 2px solid var(--shadow-3-color);
-//   }
-//   &__center {
-//     flex-direction: column;
-//     justify-content: center;
-//   }
-//   &__lower {
-//     border-top: 2px solid var(--shadow-3-color);
-//   }
-// }
-
+.projects__cards {
+  display: flex;
+  align-items: center;
+  height: 250px;
+  border-bottom: 3px solid #ededed;
+  &__card {
+    height: 175px;
+    width: 300px;
+    min-width: 250px;
+    padding: 25px 35px;
+    margin-right: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 12px;
+    border: 2px solid var(--ligth-blue-color);
+    border-bottom: 8px solid var(--red-color);
+    > span {
+      margin: 7px 0;
+    }
+    &__title {
+      font-size: 16px;
+      color: var(--blue-color);
+    }
+    &__description,
+    &__date {
+      font-size: 14px;
+      color: var(--gray-color);
+    }
+  }
+  &__new-card {
+    border: 1px solid var(--ligth-blue-color);
+    color: var(--blue-color);
+    text-align: center;
+    &__title {
+      font-size: 16px;
+    }
+    &__plus {
+      i {
+        color: var(--blue-color);
+        font-size: 80px;
+      }
+    }
+  }
+}
 .content {
   width: 100%;
   height: calc(100vh - 80px);
