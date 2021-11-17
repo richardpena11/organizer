@@ -48,7 +48,8 @@ export default {}
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px gray solid;
+  background-color: white;
+  z-index: 99;
   &__title {
     font-size: 22px;
   }
@@ -110,10 +111,10 @@ export default {}
 // }
 
 .content {
-  width: calc(100vw - 80px);
+  width: 100%;
   height: calc(100vh - 80px);
   position: relative;
   top: 40px;
-  padding: 30px;
+  padding: 30px 20px;
 }
 </style>

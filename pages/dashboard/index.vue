@@ -45,8 +45,32 @@
             <h4>Add new task</h4>
           </v-btn>
         </div>
-        <div class="project-info"></div>
-        <div class="project-users-list"></div>
+        <div class="project-info">
+          <div class="project-info__title main">
+            <span class="prev">Te encuentras en el proyecto, </span>
+            <h4>&nbsp;Título</h4>
+            <!-- <span class="date">16/06/2016</span> -->
+          </div>
+          <div class="project-info__title next-goal">
+            <span class="prev">La siguiente meta es, </span>
+            <h4>&nbsp;Tarea</h4>
+            <!-- <span class="date">16/06/2016</span> -->
+          </div>
+          <v-calendar class="calendar" columns="3"></v-calendar>
+        </div>
+        <div class="project-users-list">
+          <h1 class="project-users-list__title">Users</h1>
+          <div class="project-users-list__item">
+            <v-avatar class="project-users-list__item__avatar">img</v-avatar>
+            <div class="project-users-list__item__name">
+              <div class="project-users-list__item__name__username">
+                kaima64
+              </div>
+            </div>
+            <v-icon>mdi-pencil</v-icon>
+            <v-icon>mdi-close</v-icon>
+          </div>
+        </div>
       </div>
     </div>
     <div>
@@ -88,14 +112,15 @@ export default {
   flex-direction: column;
   .projects {
     margin: 15px 0;
-    height: 35%;
+    height: 100%;
     &__cards {
       display: flex;
       justify-content: space-around;
-      height: 100%;
+      height: 35%;
       &__card {
-        height: 80%;
-        width: 25%;
+        height: 150px;
+        width: 250px;
+        min-width: 200px;
         padding: 2.5% 0 2.5% 3%;
         display: flex;
         flex-direction: column;
@@ -133,8 +158,11 @@ export default {
     }
     .project-display {
       height: 65%;
+      width: 100%;
+      display: flex;
       .task-list {
         width: 25%;
+        max-width: 290px;
         background-color: var(--ligth-blue-color);
         display: flex;
         flex-direction: column;
@@ -178,8 +206,65 @@ export default {
           display: flex;
           justify-content: flex-start;
           h4 {
-            margin-left: 18%;
+            width: 100%;
+            text-align: center;
             text-transform: capitalize;
+          }
+        }
+      }
+      .project-info {
+        width: 60%;
+        max-width: 800px;
+        padding: 10px;
+        font-size: 22px;
+        &__title {
+          display: flex;
+          margin-top: 15px;
+          .prev {
+            font-weight: 200;
+          }
+          h4 {
+            font-weight: 300;
+          }
+          .date {
+            font-weight: 300;
+          }
+        }
+        .calendar {
+          transform: scale(0.9);
+        }
+      }
+      .project-users-list {
+        width: 20%;
+        max-width: 230px;
+        background-color: var(--ligth-blue-color);
+        padding: 0% 1%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        &__title {
+          text-align: center;
+          font-size: 22px;
+          margin-top: 5%;
+          margin-bottom: 10%;
+        }
+        &__item {
+          display: flex;
+          width: 100%;
+          padding-bottom: 5%;
+          border-bottom: 2px solid var(--shadow-3-color);
+          &__avatar {
+            background-color: var(--blue-color);
+            color: white;
+            margin-right: 15px;
+          }
+          &__name {
+            margin-right: 15px;
+            &__username {
+              margin-top: 15px;
+              color: var(--blue-color);
+              font-weight: bold;
+            }
           }
         }
       }
