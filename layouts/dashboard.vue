@@ -4,11 +4,13 @@
       <h1 class="top-menu__title">Dashboard</h1>
       <div class="top-menu__profile">
         <v-avatar class="top-menu__profile__avatar">
-          <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+          <img :src="user.picture" alt="John" />
         </v-avatar>
         <div class="top-menu__profile__name">
           <div class="top-menu__profile__name__label">User</div>
-          <div class="top-menu__profile__name__username">kaima64</div>
+          <div class="top-menu__profile__name__username">
+            {{ user.nickname }}
+          </div>
         </div>
         <div class="top-menu__profile__dropdown">
           <v-icon>mdi-chevron-down</v-icon>
@@ -17,23 +19,31 @@
     </div>
     <div class="content">
       <div class="projects__cards">
-        <div class="projects__cards__new-card projects__cards__card">
+        <NuxtLink
+          class="projects__cards__new-card projects__cards__card"
+          to="/dashboard"
+        >
           <div class="projects__cards__new-card__title">
             Create a new project
           </div>
           <div class="projects__cards__new-card__plus">
             <v-icon>mdi-plus</v-icon>
           </div>
-        </div>
-        <div v-for="i in 2" :key="i" class="projects__cards__card">
-          <span class="projects__cards__card__title">Millionaie Project</span>
+        </NuxtLink>
+        <NuxtLink
+          v-for="(project, i) in projects"
+          :key="i"
+          :to="`/dashboard/project/${project.ID}`"
+          class="projects__cards__card"
+        >
+          <span class="projects__cards__card__title">{{ project.title }}</span>
           <span class="projects__cards__card__description">
-            Small description
+            {{ project.description }}
           </span>
           <span class="projects__cards__card__date">
-            Finish date: 06/15/2021
+            Finish date: {{ project.finishDate }}
           </span>
-        </div>
+        </NuxtLink>
       </div>
       <Nuxt />
     </div>
@@ -41,7 +51,27 @@
 </template>
 
 <script>
-export default {}
+export default {
+  computed: {
+    user() {
+      return this.$auth.state.user
+    },
+
+    projects() {
+      return this.$store.state.userProjectsList
+    },
+  },
+  beforeCreate() {
+    // Get User object
+    const user = this.$auth.$state.user
+    const newUser = Object.assign({}, user)
+
+    // const projectid = this.$route.params.project
+
+    // Getting user data in firebase to check if basedata
+    this.$store.dispatch('getUserDataFromDB', newUser)
+  },
+}
 </script>
 
 <style lang="scss" scoped>
@@ -91,12 +121,17 @@ export default {}
     min-width: 250px;
     padding: 25px 35px;
     margin-right: 100px;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border-radius: 12px;
+    text-decoration: none;
     border: 2px solid var(--ligth-blue-color);
     border-bottom: 8px solid var(--red-color);
+    transition: 0.2s background-color;
+    &:hover {
+      background: var(--ligth-blue-color);
+    }
     > span {
       margin: 7px 0;
     }

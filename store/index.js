@@ -2,7 +2,7 @@
 export const strict = false
 
 export const state = () => ({
-  userProjectsList: null,
+  userProjectsList: [],
   FBApiKey: 'AIzaSyBYS7uWhmm1oDZowwZv0Ftu_cASKmxO-m4',
 })
 
@@ -23,8 +23,8 @@ export const actions = {
         if (doc.exists) {
           // User data does exists
           const data = doc.data()
-          console.log('Document data:', data)
           commit('updateUserProjectsList', data.projects)
+          console.log(this.$router)
         } else {
           // User data doesn't exists so it gets create it
           dispatch('createNewUser', { docRef, user })
@@ -35,8 +35,7 @@ export const actions = {
       })
   },
 
-  createNewUser({ state }, { docRef, user }) {
-    console.log('Creando documento')
+  createNewUser({ commit }, { docRef, user }) {
     docRef
       .set({
         ...user,
@@ -52,29 +51,42 @@ export const actions = {
 
   // ----------------- PROJECTS ---------------
 
-  createNewProject({ dispatch }, user) {
+  getProjectData({ state }, projectID) {
+    const projectList = state.userProjectsList
+    console.log(projectList)
+  },
+
+  createNewProject({ dispatch }, { user, newProject }) {
     const db = this.$fire.firestore
-    const project = {
-      title: 'Millionarie project',
-      description: 'small description',
-      finishDate: new Date(),
-      Users: [db.doc(`users/${user.email}`)],
-      tasks: [],
-    }
     db.collection('projects')
-      .add({ ...project })
+      .add({ ...newProject, Users: [db.doc(`users/${user.email}`)] })
       .then((doc) => {
-        dispatch('createProjectInUserReference', { projectID: doc.id, user })
+        dispatch('createProjectInUserReference', {
+          projectID: doc.id,
+          title: newProject.title,
+          description: newProject.description,
+          finishDate: newProject.finishDate,
+          user,
+        })
       })
       .catch((error) => console.log(error))
   },
 
-  createProjectInUserReference({ state, commit }, { projectID, user }) {
+  createProjectInUserReference(
+    { state, commit },
+    { projectID, title, description, finishDate, user }
+  ) {
     const db = this.$fire.firestore
     const docRef = db.collection('users').doc(user.email)
     const newProjectList = [
       ...state.userProjectsList,
-      db.doc(`projects/${projectID}`),
+      {
+        title,
+        description,
+        finishDate,
+        ID: projectID,
+        reference: db.doc(`projects/${projectID}`),
+      },
     ]
     docRef
       .update({

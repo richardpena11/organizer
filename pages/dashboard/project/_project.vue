@@ -74,22 +74,13 @@
 export default {
   layout: 'dashboard',
   auth: true,
-  beforeCreate() {
-    // Get User object
-    const user = this.$auth.$state.user
-    const newUser = Object.assign({}, user)
-
-    // Getting user data in firebase to check if basedata
-    this.$store.dispatch('getUserDataFromDB', newUser)
+  updated() {
+    this.$store.dispatch('getProjectData', this.$route.params.project)
   },
+
   methods: {
     logOut() {
       this.$auth.logout()
-    },
-
-    createProject() {
-      const user = this.$auth.$state.user
-      this.$store.dispatch('createNewProject', user)
     },
   },
 }
