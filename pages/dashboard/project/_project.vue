@@ -43,7 +43,10 @@
               <span class="date">16/06/2016</span>
             </div>
           </div>
-          <v-calendar class="project-info__calendar" :columns="3"></v-calendar>
+          <v-calendar
+            class="project-info__calendar"
+            :columns="$screens({ desktop: 3, laptop: 2, tablet: 1 })"
+          ></v-calendar>
         </div>
         <div class="project-users-list">
           <h4 class="project-users-list__title">Users</h4>
@@ -180,6 +183,9 @@ export default {
               font-weight: 300;
             }
           }
+        }
+        &__calendar {
+          align-self: center;
         }
       }
       .project-users-list {
