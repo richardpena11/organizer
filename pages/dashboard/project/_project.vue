@@ -3,7 +3,7 @@
     <div class="projects">
       <div class="project-display">
         <div class="task-list">
-          <h4 class="task-list__title">Task List</h4>
+          <h4 class="task-list__title">Lista de Tareas</h4>
           <div v-for="(task, index) in 5" :key="index" class="task-list__item">
             <div class="task-list__item__date">
               <span>04</span>
@@ -21,11 +21,22 @@
               </div>
             </div>
           </div>
-          <v-btn class="task-list__add-new">
+          <v-btn
+            class="task-list__add-new"
+            @click="dialog = true"
+            v-bind="attrs"
+            v-on="on"
+          >
             <v-icon>mdi-plus</v-icon>
-            <h4>Add new task</h4>
+            <h4>Añadir nueva tarea</h4>
           </v-btn>
         </div>
+        <v-dialog v-model="dialog" width="500">
+          <div class="task-list-form">
+            hola
+            <v-btn @click="dialog = false">close</v-btn>
+          </div>
+        </v-dialog>
         <div class="project-info">
           <div class="project-info__desc">
             <div class="project-info__desc__title">
@@ -49,7 +60,7 @@
           ></v-calendar>
         </div>
         <div class="project-users-list">
-          <h4 class="project-users-list__title">Users</h4>
+          <h4 class="project-users-list__title">Usuarios</h4>
           <div
             v-for="(task, index) in 6"
             :key="index"
@@ -77,6 +88,9 @@
 export default {
   layout: 'dashboard',
   auth: true,
+  data: () => ({
+    dialog: false,
+  }),
   updated() {
     this.$store.dispatch('getProjectData', this.$route.params.project)
   },

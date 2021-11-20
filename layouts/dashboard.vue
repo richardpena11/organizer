@@ -1,13 +1,14 @@
 <template>
   <div>
     <div class="top-menu">
-      <h1 class="top-menu__title">Dashboard</h1>
+      <h1 class="top-menu__title">Tus Proyectos</h1>
+      <img src="../assets/images/san_diego_logo.webp" alt="" />
       <div class="top-menu__profile">
         <v-avatar class="top-menu__profile__avatar">
           <img :src="user.picture" alt="John" />
         </v-avatar>
         <div class="top-menu__profile__name">
-          <div class="top-menu__profile__name__label">User</div>
+          <div class="top-menu__profile__name__label">Usuario</div>
           <div class="top-menu__profile__name__username">
             {{ user.nickname }}
           </div>
@@ -24,7 +25,7 @@
           to="/dashboard"
         >
           <div class="projects__cards__new-card__title">
-            Create a new project
+            Crear nuevo proyecto
           </div>
           <div class="projects__cards__new-card__plus">
             <v-icon>mdi-plus</v-icon>
@@ -41,7 +42,7 @@
             {{ project.description }}
           </span>
           <span class="projects__cards__card__date">
-            Finish date: {{ project.finishDate }}
+            Fecha de finalización: {{ project.finishDate }}
           </span>
         </NuxtLink>
       </div>
@@ -88,6 +89,9 @@ export default {
   z-index: 99;
   &__title {
     font-size: 22px;
+  }
+  img {
+    width: 120px;
   }
   &__profile {
     width: 175px;

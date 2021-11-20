@@ -1,6 +1,5 @@
 <template>
   <div class="header-container">
-    <div class="dashboard"></div>
     <header class="header">
       <Hero />
 
@@ -27,18 +26,13 @@ export default {
   display: flex;
   justify-content: space-between;
   justify-content: center;
-  background: linear-gradient(
-    to right,
-    var(--dark-blue-color),
-    var(--blue-color)
-  );
-  clip-path: polygon(100% 0, 100% 80%, 50% 100%, 0 80%, 0 0);
+  background-color: #e9effe;
   .header {
     max-width: 1000px;
     width: 90%;
     height: 90%;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
     font-family: 'Roboto', sans-serif;
   }

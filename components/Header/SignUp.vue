@@ -1,6 +1,6 @@
 <template>
   <div class="sign-up">
-    <v-btn @click="logIn">Log In</v-btn>
+    <v-btn color="#00bc8b" @click="logIn">Inicar sesión</v-btn>
   </div>
 </template>
 
@@ -14,4 +14,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.v-btn {
+  color: white;
+}
+</style>

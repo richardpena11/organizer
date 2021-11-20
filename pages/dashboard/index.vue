@@ -19,13 +19,14 @@
         ></v-text-field>
       </div>
       <div class="create-new-project__form__date-picker">
+        <span>Seleccione la fecha de finalización</span>
         <v-date-picker v-model="newProject.finishDate" />
       </div>
     </div>
     <div>{{ newProject.title }}</div>
     <div>{{ newProject.description }}</div>
     <div>{{ newProject.finishDate }}</div>
-    <v-btn @click="createNewProject">Crear</v-btn>
+    <v-btn @click="createNewProject">Crear nuevo proyecto</v-btn>
   </div>
 </template>
 
@@ -89,8 +90,13 @@ export default {
     &__date-picker {
       width: 40%;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
       max-width: 400px;
+      span {
+        text-align: center;
+        margin-bottom: 15px;
+      }
     }
   }
   .v-btn {
