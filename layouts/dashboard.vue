@@ -21,7 +21,9 @@
     <div class="content">
       <div class="projects__cards">
         <NuxtLink
-          class="projects__cards__new-card projects__cards__card"
+          :class="`projects__cards__card projects__cards__new-card ${
+            routeParams.project ? '' : 'projects__cards__new-card--active'
+          }`"
           to="/dashboard"
         >
           <div class="projects__cards__new-card__title">
@@ -33,9 +35,14 @@
         </NuxtLink>
         <NuxtLink
           v-for="(project, i) in projects"
+          :id="project.ID"
           :key="i"
           :to="`/dashboard/project/${project.ID}`"
-          class="projects__cards__card"
+          :class="`projects__cards__card ${
+            routeParams.project == project.ID
+              ? 'projects__cards__card--active'
+              : ''
+          }`"
         >
           <span class="projects__cards__card__title">{{ project.title }}</span>
           <span class="projects__cards__card__description">
@@ -60,6 +67,10 @@ export default {
 
     projects() {
       return this.$store.state.userProjectsList
+    },
+
+    routeParams() {
+      return this.$route.params
     },
   },
   beforeCreate() {
@@ -131,8 +142,10 @@ export default {
     justify-content: center;
     text-decoration: none;
     border: 2px solid var(--ligth-blue-color);
-    border-bottom: 8px solid var(--red-color);
     transition: 0.2s background-color;
+    &--active {
+      border: 2px solid var(--blue-color) !important;
+    }
     &:hover {
       background: var(--ligth-blue-color);
     }
@@ -150,9 +163,11 @@ export default {
     }
   }
   &__new-card {
-    border: 1px solid var(--ligth-blue-color);
     color: var(--blue-color);
     text-align: center;
+    &--active {
+      border: 2px solid var(--blue-color) !important;
+    }
     &__title {
       font-size: 16px;
     }

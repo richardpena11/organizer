@@ -51,7 +51,7 @@ export const actions = {
 
   // ----------------- PROJECTS ---------------
 
-  getProjectData({ state }, projectID) {
+  getProjectData({ state }) {
     const projectList = state.userProjectsList
     console.log(projectList)
   },

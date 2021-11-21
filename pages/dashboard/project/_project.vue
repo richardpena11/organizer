@@ -21,12 +21,7 @@
               </div>
             </div>
           </div>
-          <v-btn
-            class="task-list__add-new"
-            @click="dialog = true"
-            v-bind="attrs"
-            v-on="on"
-          >
+          <v-btn class="task-list__add-new">
             <v-icon>mdi-plus</v-icon>
             <h4>Añadir nueva tarea</h4>
           </v-btn>
@@ -54,10 +49,7 @@
               <span class="date">16/06/2016</span>
             </div>
           </div>
-          <v-calendar
-            class="project-info__calendar"
-            :columns="$screens({ desktop: 3, laptop: 2, tablet: 1 })"
-          ></v-calendar>
+          <v-calendar class="project-info__calendar" :columns="2"></v-calendar>
         </div>
         <div class="project-users-list">
           <h4 class="project-users-list__title">Usuarios</h4>
