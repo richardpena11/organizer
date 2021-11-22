@@ -22,7 +22,7 @@ export default {
 
 <style lang="scss" scoped>
 .header-container {
-  height: 700px;
+  height: 100vh;
   display: flex;
   justify-content: space-between;
   justify-content: center;

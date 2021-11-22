@@ -1,5 +1,5 @@
 <template>
-  <div class="projects-container">
+  <div class="projects-container" data-app>
     <div class="projects">
       <div class="project-display">
         <div class="task-list">
@@ -21,17 +21,11 @@
               </div>
             </div>
           </div>
-          <v-btn class="task-list__add-new">
+          <v-btn class="task-list__add-new" @click="dialog = true">
             <v-icon>mdi-plus</v-icon>
             <h4>Añadir nueva tarea</h4>
           </v-btn>
         </div>
-        <v-dialog v-model="dialog" width="500">
-          <div class="task-list-form">
-            hola
-            <v-btn @click="dialog = false">close</v-btn>
-          </div>
-        </v-dialog>
         <div class="project-info">
           <div class="project-info__desc">
             <div class="project-info__desc__title">
@@ -68,6 +62,32 @@
         </div>
       </div>
     </div>
+    <v-dialog v-model="dialog" class="task-pop-up" width="500">
+      <div class="create-new-task">
+        <v-btn
+          class="create-new-task__close-dialog"
+          icon
+          @click="dialog = false"
+        >
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+        <h1>Añadir nueva tarea</h1>
+        <div class="create-new-task__form">
+          <v-text-field
+            label="Título"
+            counter="30"
+            light
+            single-line
+            outlined
+          ></v-text-field>
+          <div class="create-new-task__form__date-picker">
+            <span>Seleccione la fecha de finalización</span>
+            <v-date-picker />
+          </div>
+        </div>
+        <v-btn class="create-new-task__submit">Añadir nueva tarea</v-btn>
+      </div>
+    </v-dialog>
     <div>
       <!-- <v-btn @click="logOut">Log Out</v-btn>
       <v-btn @click="createProject">Create a project</v-btn> -->
@@ -79,10 +99,10 @@
 /* eslint-disable no-console */
 export default {
   layout: 'dashboard',
-  auth: true,
   data: () => ({
     dialog: false,
   }),
+  auth: true,
   updated() {
     this.$store.dispatch('getProjectData', this.$route.params.project)
   },
@@ -117,6 +137,7 @@ export default {
         flex-direction: column;
         align-items: center;
         background-color: var(--ligth-blue-color);
+        border-radius: 15px;
         &__title {
           margin-bottom: 15px;
           font-size: 20px;
@@ -202,6 +223,7 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: center;
+        border-radius: 15px;
         &__title {
           text-align: center;
           font-size: 20px;
@@ -224,6 +246,44 @@ export default {
             color: var(--blue-color);
           }
         }
+      }
+    }
+  }
+  .v-dialog {
+    .create-new-task {
+      background-color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 3px var(--blue-color) solid;
+      border-radius: 10px;
+      padding: 10px;
+      h1 {
+        margin-bottom: 10px;
+        text-align: center;
+        font-size: 20px;
+      }
+      &__close-dialog {
+        background-color: transparent;
+        color: black;
+        align-self: flex-end;
+      }
+      &__form {
+        &__date-picker {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-bottom: 10px;
+          span {
+            margin-bottom: 10px;
+          }
+        }
+      }
+      &__submit {
+        text-transform: capitalize;
+        background-color: var(--green-color);
+        color: white;
+        margin: 10px 0;
       }
     }
   }

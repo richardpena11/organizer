@@ -11,6 +11,7 @@ export default {}
 
 <style lang="scss" scoped>
 .loading-screen {
+  height: 100vh;
   background-color: var(--ligth-blue-color);
   display: flex;
   flex-direction: column;
