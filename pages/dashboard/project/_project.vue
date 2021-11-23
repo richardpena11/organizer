@@ -107,9 +107,11 @@ export default {
 
   computed: {
     project() {
-      console.log(this.$store.state.currentProject)
-      if (this.$store.state.currentProject) {
-        return this.$store.state.currentProject
+      const project = this.$store.state.currentProject
+      console.log(project)
+      if (project) {
+        project.finishDate = project.finishDate.toDate().toDateString()
+        return project
       } else {
         return {}
       }

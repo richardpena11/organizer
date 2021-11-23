@@ -58,7 +58,8 @@
             {{ project.description }}
           </span>
           <span class="projects__cards__card__date">
-            Fecha de finalización: {{ project.finishDate }}
+            Fecha de finalización:
+            {{ project.finishDate }}
           </span>
         </NuxtLink>
       </div>
@@ -75,7 +76,17 @@ export default {
     },
 
     projects() {
-      return this.$store.state.userProjectsList
+      const userProjectsList = this.$store.state.userProjectsList
+      // for (const project of userProjectsList) {
+      //   console.log(project.finishDate)
+      //   // eslint-disable-next-line
+      //   if (typeof project.finishDate == typeof '') {
+      //     console.log(true)
+      //   } else {
+      //     console.log(false)
+      //   }
+      // }
+      return userProjectsList
     },
 
     routeParams() {
@@ -159,6 +170,7 @@ export default {
   align-items: center;
   height: 250px;
   border-bottom: 3px solid #ededed;
+  overflow: auto;
   &__card {
     height: 175px;
     width: 300px;
