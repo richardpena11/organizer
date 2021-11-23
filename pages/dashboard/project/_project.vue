@@ -110,7 +110,7 @@ export default {
       const project = this.$store.state.currentProject
       console.log(project)
       if (project) {
-        project.finishDate = project.finishDate.toDate().toDateString()
+        // project.finishDate = project.finishDate.toDate().toDateString()
         return project
       } else {
         return {}
