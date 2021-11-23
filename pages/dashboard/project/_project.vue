@@ -103,9 +103,6 @@ export default {
     dialog: false,
   }),
   auth: true,
-  updated() {
-    this.$store.dispatch('getProjectData', this.$route.params.project)
-  },
 
   methods: {
     logOut() {

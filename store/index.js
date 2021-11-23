@@ -2,6 +2,8 @@
 export const strict = false
 
 export const state = () => ({
+  actualProjectID: null,
+  actualProject: null,
   userProjectsList: [],
   FBApiKey: 'AIzaSyBYS7uWhmm1oDZowwZv0Ftu_cASKmxO-m4',
 })
@@ -9,6 +11,14 @@ export const state = () => ({
 export const mutations = {
   updateUserProjectsList(state, userProjectsList) {
     state.userProjectsList = userProjectsList
+  },
+
+  saveActualProjectID(state, actualProjectID) {
+    state.actualProjectID = actualProjectID
+  },
+
+  saveCurrentProject(state, currentProject) {
+    state.currentProject = currentProject
   },
 }
 
@@ -24,7 +34,6 @@ export const actions = {
           // User data does exists
           const data = doc.data()
           commit('updateUserProjectsList', data.projects)
-          console.log(this.$router)
         } else {
           // User data doesn't exists so it gets create it
           dispatch('createNewUser', { docRef, user })
@@ -50,6 +59,20 @@ export const actions = {
   },
 
   // ----------------- PROJECTS ---------------
+
+  getCurrentProject({ state, commit }) {
+    const db = this.$fire.firestore
+    const projectRef = db.doc(`projects/${state.actualProjectID}`)
+    projectRef
+      .get()
+      .then((doc) => {
+        console.log(doc.data())
+        commit('saveCurrentProject', doc.data())
+      })
+      .catch((error) => {
+        console.log('Error getting document:', error)
+      })
+  },
 
   getProjectData({ state }) {
     const projectList = state.userProjectsList

@@ -62,7 +62,7 @@
 export default {
   computed: {
     user() {
-      return this.$auth.state.user
+      return this.$auth.$state.user
     },
 
     projects() {
@@ -78,10 +78,13 @@ export default {
     const user = this.$auth.$state.user
     const newUser = Object.assign({}, user)
 
-    // const projectid = this.$route.params.project
-
     // Getting user data in firebase to check if basedata
     this.$store.dispatch('getUserDataFromDB', newUser)
+  },
+  updated() {
+    // Save project ID from routes
+    this.$store.commit('saveActualProjectID', this.routeParams.project)
+    this.$store.dispatch('getCurrentProject')
   },
 }
 </script>
