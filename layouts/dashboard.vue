@@ -145,6 +145,7 @@ export default {
       }
       &__menu {
         padding: 10px;
+        z-index: 999;
         .v-btn {
           background-color: white;
         }
