@@ -4,7 +4,11 @@
       <div class="project-display">
         <div class="task-list">
           <h4 class="task-list__title">Lista de Tareas</h4>
-          <div v-for="(task, index) in 5" :key="index" class="task-list__item">
+          <div
+            v-for="(task, index) in project.tasks"
+            :key="index"
+            class="task-list__item"
+          >
             <div class="task-list__item__date">
               <span>04</span>
               <span>10</span>
@@ -30,9 +34,9 @@
             <div class="project-info__desc__title">
               <span class="prev"
                 >Te encuentras en el proyecto,
-                <h4>Título</h4></span
+                <h4>{{ project.title }}</h4></span
               >
-              <span class="date">16/06/2016</span>
+              <span class="date">{{ project.finishDate }}</span>
             </div>
             <div class="project-info__desc__title">
               <span class="prev"
@@ -47,14 +51,16 @@
         <div class="project-users-list">
           <h4 class="project-users-list__title">Usuarios</h4>
           <div
-            v-for="(task, index) in 6"
+            v-for="(user, index) in project.Users"
             :key="index"
             class="project-users-list__item"
           >
             <v-avatar size="40" class="project-users-list__item__avatar"
-              >img</v-avatar
-            >
-            <div class="project-users-list__item__name">kaima64</div>
+              ><img :src="user.picture" alt="John"
+            /></v-avatar>
+            <div class="project-users-list__item__name">
+              {{ user.nickname }}
+            </div>
             <v-icon>mdi-pencil</v-icon>
             <v-icon>mdi-close</v-icon>
           </div>
@@ -87,10 +93,6 @@
         <v-btn class="create-new-task__submit">Añadir nueva tarea</v-btn>
       </div>
     </v-dialog>
-    <div>
-      <!-- <v-btn @click="logOut">Log Out</v-btn>
-      <v-btn @click="createProject">Create a project</v-btn> -->
-    </div>
   </div>
 </template>
 
@@ -102,6 +104,17 @@ export default {
     dialog: false,
   }),
   auth: true,
+
+  computed: {
+    project() {
+      console.log(this.$store.state.currentProject)
+      if (this.$store.state.currentProject) {
+        return this.$store.state.currentProject
+      } else {
+        return {}
+      }
+    },
+  },
 
   methods: {
     logOut() {

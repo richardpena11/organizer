@@ -3,7 +3,7 @@ export const strict = false
 
 export const state = () => ({
   actualProjectID: null,
-  actualProject: null,
+  currentProject: null,
   userProjectsList: [],
   FBApiKey: 'AIzaSyBYS7uWhmm1oDZowwZv0Ftu_cASKmxO-m4',
 })
@@ -66,7 +66,6 @@ export const actions = {
     projectRef
       .get()
       .then((doc) => {
-        console.log(doc.data())
         commit('saveCurrentProject', doc.data())
       })
       .catch((error) => {
@@ -81,8 +80,18 @@ export const actions = {
 
   createNewProject({ dispatch }, { user, newProject }) {
     const db = this.$fire.firestore
+    const newProjectWithUser = {
+      ...newProject,
+      Users: [
+        {
+          nickname: user.nickname,
+          picture: user.picture,
+          reference: [db.doc(`users/${user.email}`)],
+        },
+      ],
+    }
     db.collection('projects')
-      .add({ ...newProject, Users: [db.doc(`users/${user.email}`)] })
+      .add({ ...newProjectWithUser })
       .then((doc) => {
         dispatch('createProjectInUserReference', {
           projectID: doc.id,
