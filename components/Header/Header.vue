@@ -27,6 +27,7 @@ export default {
   justify-content: space-between;
   justify-content: center;
   background-color: #e9effe;
+  padding-top: 20px;
   .header {
     max-width: 1000px;
     width: 90%;

@@ -65,7 +65,7 @@ export default {}
     font-size: 20px;
     img {
       width: 350px;
-      margin: -20px 0;
+      margin-bottom: -50px;
       align-self: center;
     }
   }
@@ -78,6 +78,7 @@ export default {}
     font-family: 'Roboto Condensed', sans-serif;
     font-size: 20px;
     text-align: justify;
+    margin-bottom: 20px;
   }
 }
 </style>

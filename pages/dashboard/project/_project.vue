@@ -61,8 +61,8 @@
             <div class="project-users-list__item__name">
               {{ user.nickname }}
             </div>
-            <v-icon>mdi-pencil</v-icon>
-            <v-icon>mdi-close</v-icon>
+            <!-- <v-icon>mdi-pencil</v-icon>
+            <v-icon>mdi-close</v-icon> -->
           </div>
         </div>
       </div>
@@ -208,6 +208,7 @@ export default {
         flex-direction: column;
         justify-content: space-between;
         &__desc {
+          margin-bottom: 10px;
           &__title {
             display: flex;
             justify-content: space-between;
