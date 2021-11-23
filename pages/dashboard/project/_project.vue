@@ -12,13 +12,12 @@
             <div class="task-list__item__info">
               <div class="task-list__item__info__description">
                 <h4>Task to complete</h4>
-                <span>description</span>
               </div>
-              <div class="task-list__item__info__status">
-                <v-icon>mdi-check-circle</v-icon>
-                <v-icon>mdi-check-circle</v-icon>
-                <v-icon>mdi-check-circle</v-icon>
-              </div>
+              <v-radio-group class="task-list__item__info__status" row>
+                <v-radio color="#388E3C" value="green"></v-radio>
+                <v-radio color="#F9A825" value="yellow"></v-radio>
+                <v-radio color="#D50000" value="red"></v-radio>
+              </v-radio-group>
             </div>
           </div>
           <v-btn class="task-list__add-new" @click="dialog = true">
@@ -154,7 +153,9 @@ export default {
             background-color: var(--blue-color);
             color: white;
             padding: 5px 10px;
+            max-height: 50px;
             font-size: 16px;
+            margin-top: 7px;
           }
           &__info {
             width: 100%;
@@ -165,6 +166,12 @@ export default {
               display: flex;
               flex-direction: column;
               justify-content: space-evenly;
+            }
+            &__status {
+              padding: 0;
+              .v-radio {
+                margin: 0;
+              }
             }
           }
         }

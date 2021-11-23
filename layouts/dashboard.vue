@@ -14,7 +14,16 @@
           </div>
         </div>
         <div class="top-menu__profile__dropdown">
-          <v-icon>mdi-chevron-down</v-icon>
+          <v-menu offset-y>
+            <template #activator="{ on, attrs }">
+              <v-btn dark icon v-bind="attrs" v-on="on">
+                <v-icon>mdi-chevron-down</v-icon>
+              </v-btn>
+            </template>
+            <div class="top-menu__profile__dropdown__menu">
+              <v-btn light depressed @click="logOut">Cerrar sesión</v-btn>
+            </div>
+          </v-menu>
         </div>
       </div>
     </div>
@@ -83,6 +92,11 @@ export default {
     // Getting user data in firebase to check if basedata
     this.$store.dispatch('getUserDataFromDB', newUser)
   },
+  methods: {
+    logOut() {
+      this.$auth.logout()
+    },
+  },
 }
 </script>
 
@@ -120,6 +134,17 @@ export default {
       &__username {
         font-size: 16px;
         font-weight: 700;
+      }
+    }
+    &__dropdown {
+      .v-btn {
+        color: black;
+      }
+      &__menu {
+        padding: 10px;
+        .v-btn {
+          background-color: white;
+        }
       }
     }
   }
