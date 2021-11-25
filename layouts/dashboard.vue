@@ -59,7 +59,7 @@
           </span>
           <span class="projects__cards__card__date">
             Fecha de finalización:
-            {{ project.finishDate }}
+            {{ project.finishDate.toDate().toDateString() }}
           </span>
         </NuxtLink>
       </div>
@@ -77,15 +77,6 @@ export default {
 
     projects() {
       const userProjectsList = this.$store.state.userProjectsList
-      // for (const project of userProjectsList) {
-      //   console.log(project.finishDate)
-      //   // eslint-disable-next-line
-      //   if (typeof project.finishDate == typeof '') {
-      //     console.log(true)
-      //   } else {
-      //     console.log(false)
-      //   }
-      // }
       return userProjectsList
     },
 

@@ -105,7 +105,7 @@ export const actions = {
   },
 
   createProjectInUserReference(
-    { state, commit },
+    { state, dispatch, commit },
     { projectID, title, description, finishDate, user }
   ) {
     const db = this.$fire.firestore
@@ -125,7 +125,7 @@ export const actions = {
         projects: [...newProjectList],
       })
       .then(() => {
-        commit('updateUserProjectsList', newProjectList)
+        dispatch('getUserDataFromDB', state.auth.user)
       })
   },
 }
