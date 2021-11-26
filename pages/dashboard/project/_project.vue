@@ -1,5 +1,5 @@
 <template>
-  <div class="projects-container" data-app>
+  <div v-if="project" class="projects-container" data-app>
     <div class="projects">
       <div class="project-display">
         <div class="task-list">
@@ -10,12 +10,12 @@
             class="task-list__item"
           >
             <div class="task-list__item__date">
-              <span>04</span>
-              <span>10</span>
+              <span>{{ task.date.toDate().getMonth() + 1 }}</span>
+              <span>{{ task.date.toDate().getUTCDate() }}</span>
             </div>
             <div class="task-list__item__info">
               <div class="task-list__item__info__description">
-                <h4>Task to complete</h4>
+                <h4>{{ task.title }}</h4>
               </div>
               <v-radio-group class="task-list__item__info__status" row>
                 <v-radio color="#388E3C" value="green"></v-radio>
@@ -51,7 +51,7 @@
         <div class="project-users-list">
           <h4 class="project-users-list__title">Usuarios</h4>
           <div
-            v-for="(user, index) in project.Users"
+            v-for="(user, index) in project.users"
             :key="index"
             class="project-users-list__item"
           >
@@ -79,6 +79,7 @@
         <h1>Añadir nueva tarea</h1>
         <div class="create-new-task__form">
           <v-text-field
+            v-model="newTask.title"
             label="Título"
             counter="30"
             light
@@ -87,10 +88,12 @@
           ></v-text-field>
           <div class="create-new-task__form__date-picker">
             <span>Seleccione la fecha de finalización</span>
-            <v-date-picker />
+            <v-date-picker v-model="newTask.date" />
           </div>
         </div>
-        <v-btn class="create-new-task__submit">Añadir nueva tarea</v-btn>
+        <v-btn class="create-new-task__submit" @click="addnewTask"
+          >Añadir nueva tarea</v-btn
+        >
       </div>
     </v-dialog>
   </div>
@@ -100,9 +103,16 @@
 /* eslint-disable no-console */
 export default {
   layout: 'dashboard',
-  data: () => ({
-    dialog: false,
-  }),
+  data() {
+    return {
+      dialog: false,
+      newTask: {
+        title: '',
+        date: '',
+        status: 'todo',
+      },
+    }
+  },
   auth: true,
 
   computed: {
@@ -122,6 +132,10 @@ export default {
   methods: {
     logOut() {
       this.$auth.logout()
+    },
+
+    addnewTask() {
+      this.$store.dispatch('addNewTask', this.newTask)
     },
   },
 }

@@ -39,8 +39,8 @@ export default {
         title: '',
         description: '',
         finishDate: '',
-        Users: [],
-        Tasks: [],
+        users: [],
+        tasks: [],
       },
     }
   },
