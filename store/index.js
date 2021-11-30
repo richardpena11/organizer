@@ -20,10 +20,6 @@ export const mutations = {
   saveCurrentProject(state, currentProject) {
     state.currentProject = currentProject
   },
-
-  addNewTaskToProject(state, newTaskList) {
-    state.currentProject.tasks = newTaskList
-  },
 }
 
 export const actions = {
@@ -75,11 +71,6 @@ export const actions = {
       .catch((error) => {
         console.log('Error getting document:', error)
       })
-  },
-
-  getProjectData({ state }) {
-    const projectList = state.userProjectsList
-    console.log(projectList)
   },
 
   createNewProject({ dispatch }, { user, newProject }) {
@@ -135,7 +126,6 @@ export const actions = {
 
   addNewTask({ state, commit, dispatch }, newTask) {
     const projectTasksList = [...state.currentProject.tasks, newTask]
-    commit('addNewTaskToProject', projectTasksList)
 
     const db = this.$fire.firestore
     const docRef = db.collection('projects').doc(state.actualProjectID)
@@ -145,8 +135,6 @@ export const actions = {
       })
       .then(() => {
         dispatch('getUserDataFromDB', state.auth.user)
-        console.log('done')
       })
-    console.log(newTask)
   },
 }

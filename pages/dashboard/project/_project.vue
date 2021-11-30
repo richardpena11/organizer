@@ -9,7 +9,7 @@
             :key="index"
             class="task-list__item"
           >
-            <div class="task-list__item__date">
+            <div v-if="!task.date.date" class="task-list__item__date">
               <span>{{ task.date.toDate().getMonth() + 1 }}</span>
               <span>{{ task.date.toDate().getUTCDate() }}</span>
             </div>
@@ -158,10 +158,13 @@ export default {
       .task-list {
         width: 25%;
         max-width: 350px;
+        height: 450px;
         padding: 20px 15px;
         display: flex;
         flex-direction: column;
         align-items: center;
+        overflow-x: hidden;
+        overflow-y: auto;
         background-color: var(--ligth-blue-color);
         border-radius: 15px;
         &__title {
