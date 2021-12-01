@@ -17,10 +17,16 @@
               <div class="task-list__item__info__description">
                 <h4>{{ task.title }}</h4>
               </div>
-              <v-radio-group class="task-list__item__info__status" row>
-                <v-radio color="#388E3C" value="green"></v-radio>
-                <v-radio color="#F9A825" value="yellow"></v-radio>
-                <v-radio color="#D50000" value="red"></v-radio>
+              <v-radio-group
+                ref="radioGroup"
+                class="task-list__item__info__status"
+                row
+                :value="task.status"
+                @change="changeTaskStatus($event, index)"
+              >
+                <v-radio color="#D50000" value="todo"></v-radio>
+                <v-radio color="#F9A825" value="doing"></v-radio>
+                <v-radio color="#388E3C" value="done"></v-radio>
               </v-radio-group>
             </div>
           </div>
@@ -135,7 +141,17 @@ export default {
     },
 
     addnewTask() {
-      this.$store.dispatch('addNewTask', this.newTask)
+      const currentTasksList = this.$store.state.currentProject.tasks
+      const newTasksList = [...currentTasksList, this.newTask]
+      this.$store.dispatch('updateTaskslist', newTasksList)
+    },
+
+    changeTaskStatus(value, index) {
+      const statusUpdate = {
+        value,
+        index,
+      }
+      this.$store.dispatch('updateTaskStatus', statusUpdate)
     },
   },
 }

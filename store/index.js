@@ -20,6 +20,10 @@ export const mutations = {
   saveCurrentProject(state, currentProject) {
     state.currentProject = currentProject
   },
+
+  updateTaskStatusState(state, statusUpdate) {
+    state.currentProject.tasks[statusUpdate.index].status = statusUpdate.value
+  },
 }
 
 export const actions = {
@@ -124,17 +128,20 @@ export const actions = {
       })
   },
 
-  addNewTask({ state, commit, dispatch }, newTask) {
-    const projectTasksList = [...state.currentProject.tasks, newTask]
-
+  updateTaskslist({ state, commit, dispatch }, newTasksList) {
     const db = this.$fire.firestore
     const docRef = db.collection('projects').doc(state.actualProjectID)
     docRef
       .update({
-        tasks: [...projectTasksList],
+        tasks: [...newTasksList],
       })
       .then(() => {
         dispatch('getUserDataFromDB', state.auth.user)
       })
+  },
+
+  updateTaskStatus({ state, commit, dispatch }, statusUpdate) {
+    commit('updateTaskStatusState', statusUpdate)
+    dispatch('updateTaskslist', state.currentProject.tasks)
   },
 }
