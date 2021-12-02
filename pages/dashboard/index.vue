@@ -1,37 +1,51 @@
 <template>
   <div class="create-new-project">
     <h1>Nuevo Proyecto</h1>
-    <div class="create-new-project__form">
-      <div class="create-new-project__form__text-inputs">
-        <v-text-field
-          v-model="newProject.title"
-          label="Título"
-          counter="30"
-          single-line
-          outlined
-        ></v-text-field>
-        <v-text-field
-          v-model="newProject.description"
-          label="Descripción"
-          counter="30"
-          single-line
-          outlined
-        ></v-text-field>
+    <v-form class="create-new-project__form">
+      <div class="create-new-project__form__container">
+        <div class="create-new-project__form__container__text-inputs">
+          <v-text-field
+            v-model="newProject.title"
+            label="Título"
+            counter="30"
+            single-line
+            outlined
+            required
+            :error-messages="titleErrors"
+            @input="$v.newProject.title.$touch()"
+            @blur="$v.newProject.title.$touch()"
+          ></v-text-field>
+          <v-text-field
+            v-model="newProject.description"
+            label="Descripción"
+            counter="30"
+            single-line
+            outlined
+            required
+            :error-messages="descriptionErrors"
+            @input="$v.newProject.description.$touch()"
+            @blur="$v.newProject.description.$touch()"
+          ></v-text-field>
+        </div>
+        <div class="create-new-project__form__container__date-picker">
+          <span>Seleccione la fecha de finalización</span>
+          <v-date-picker
+            v-model="newProject.finishDate"
+            min="2021-12-02"
+          ></v-date-picker>
+        </div>
       </div>
-      <div class="create-new-project__form__date-picker">
-        <span>Seleccione la fecha de finalización</span>
-        <v-date-picker v-model="newProject.finishDate" />
-      </div>
-    </div>
-    <div>{{ newProject.title }}</div>
-    <div>{{ newProject.description }}</div>
-    <div>{{ newProject.finishDate }}</div>
-    <v-btn @click="createNewProject">Crear nuevo proyecto</v-btn>
+      <v-btn @click="createNewProject">Crear nuevo proyecto</v-btn>
+    </v-form>
   </div>
 </template>
 
 <script>
+import { validationMixin } from 'vuelidate'
+import { required, maxLength } from 'vuelidate/lib/validators'
+
 export default {
+  mixins: [validationMixin],
   layout: 'dashboard',
   data() {
     return {
@@ -45,13 +59,42 @@ export default {
     }
   },
 
+  validations: {
+    newProject: {
+      title: { required, maxLength: maxLength(30) },
+      description: { required, maxLength: maxLength(30) },
+    },
+  },
+
+  computed: {
+    titleErrors() {
+      const errors = []
+      if (!this.$v.newProject.title.$dirty) return errors
+      !this.$v.newProject.title.required &&
+        errors.push('Es requerido un título')
+      return errors
+    },
+    descriptionErrors() {
+      const errors = []
+      if (!this.$v.newProject.description.$dirty) return errors
+      !this.$v.newProject.description.required &&
+        errors.push('Es requerida una descripción')
+      return errors
+    },
+  },
+
   methods: {
     createNewProject() {
-      const user = this.$auth.$state.user
-      this.$store.dispatch('createNewProject', {
-        user,
-        newProject: this.newProject,
-      })
+      this.$v.$touch()
+      if (this.$v.$invalid) {
+        this.submitStatus = 'ERROR'
+      } else {
+        const user = this.$auth.$state.user
+        this.$store.dispatch('createNewProject', {
+          user,
+          newProject: this.newProject,
+        })
+      }
     },
   },
 }
@@ -76,26 +119,32 @@ export default {
   }
   &__form {
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
     width: 100%;
     margin-bottom: 30px;
-    &__text-inputs {
-      width: 40%;
-      max-width: 400px;
-      padding: 10px;
-      .v-text-field {
-        margin-top: 25px;
-      }
-    }
-    &__date-picker {
-      width: 40%;
+    &__container {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      max-width: 400px;
-      span {
-        text-align: center;
-        margin-bottom: 15px;
+      justify-content: space-around;
+      width: 100%;
+      &__text-inputs {
+        width: 40%;
+        max-width: 400px;
+        padding: 10px;
+        .v-text-field {
+          margin-top: 25px;
+        }
+      }
+      &__date-picker {
+        width: 40%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 400px;
+        span {
+          text-align: center;
+          margin-bottom: 15px;
+        }
       }
     }
   }
@@ -104,6 +153,8 @@ export default {
     text-transform: capitalize;
     background-color: var(--green-color);
     color: white;
+    max-width: 200px;
+    align-self: center;
   }
 }
 </style>

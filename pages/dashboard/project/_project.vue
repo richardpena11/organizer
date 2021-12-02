@@ -44,13 +44,6 @@
               >
               <span class="date">{{ project.finishDate }}</span>
             </div>
-            <div class="project-info__desc__title">
-              <span class="prev"
-                >La siguiente meta es,
-                <h4>Tarea</h4></span
-              >
-              <span class="date">16/06/2016</span>
-            </div>
           </div>
           <v-calendar class="project-info__calendar" :columns="2"></v-calendar>
         </div>
@@ -83,7 +76,7 @@
           <v-icon>mdi-close</v-icon>
         </v-btn>
         <h1>Añadir nueva tarea</h1>
-        <div class="create-new-task__form">
+        <v-form class="create-new-task__form">
           <v-text-field
             v-model="newTask.title"
             label="Título"
@@ -91,15 +84,19 @@
             light
             single-line
             outlined
+            required
+            :error-messages="titleErrors"
+            @input="$v.newTask.title.$touch()"
+            @blur="$v.newTask.title.$touch()"
           ></v-text-field>
           <div class="create-new-task__form__date-picker">
             <span>Seleccione la fecha de finalización</span>
-            <v-date-picker v-model="newTask.date" />
+            <v-date-picker v-model="newTask.date" min="2021-12-02" />
           </div>
-        </div>
-        <v-btn class="create-new-task__submit" @click="addnewTask"
-          >Añadir nueva tarea</v-btn
-        >
+          <v-btn class="create-new-task__submit" @click="addnewTask"
+            >Añadir nueva tarea</v-btn
+          >
+        </v-form>
       </div>
     </v-dialog>
   </div>
@@ -107,7 +104,11 @@
 
 <script>
 /* eslint-disable no-console */
+import { validationMixin } from 'vuelidate'
+import { required, maxLength } from 'vuelidate/lib/validators'
+
 export default {
+  mixins: [validationMixin],
   layout: 'dashboard',
   data() {
     return {
@@ -121,6 +122,12 @@ export default {
   },
   auth: true,
 
+  validations: {
+    newTask: {
+      title: { required, maxLength: maxLength(30) },
+    },
+  },
+
   computed: {
     project() {
       const project = this.$store.state.currentProject
@@ -133,6 +140,12 @@ export default {
         return {}
       }
     },
+    titleErrors() {
+      const errors = []
+      if (!this.$v.newTask.title.$dirty) return errors
+      !this.$v.newTask.title.required && errors.push('Es requerido un título')
+      return errors
+    },
   },
 
   methods: {
@@ -141,9 +154,14 @@ export default {
     },
 
     addnewTask() {
-      const currentTasksList = this.$store.state.currentProject.tasks
-      const newTasksList = [...currentTasksList, this.newTask]
-      this.$store.dispatch('updateTaskslist', newTasksList)
+      this.$v.$touch()
+      if (this.$v.$invalid) {
+        this.submitStatus = 'ERROR'
+      } else {
+        const currentTasksList = this.$store.state.currentProject.tasks
+        const newTasksList = [...currentTasksList, this.newTask]
+        this.$store.dispatch('updateTaskslist', newTasksList)
+      }
     },
 
     changeTaskStatus(value, index) {
@@ -337,7 +355,7 @@ export default {
         text-transform: capitalize;
         background-color: var(--green-color);
         color: white;
-        margin: 10px 0;
+        margin: 10px 50px;
       }
     }
   }
