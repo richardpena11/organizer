@@ -45,11 +45,13 @@
               <span class="date">{{ project.finishDate }}</span>
             </div>
           </div>
-          <v-calendar
-            class="project-info__calendar"
-            :columns="2"
-            :attributes="attributes"
-          ></v-calendar>
+          <no-ssr>
+            <v-calendar
+              class="project-info__calendar"
+              :columns="2"
+              :attributes="attributes"
+            ></v-calendar>
+          </no-ssr>
         </div>
         <div class="project-users-list">
           <h4 class="project-users-list__title">Usuarios</h4>
@@ -95,7 +97,9 @@
           ></v-text-field>
           <div class="create-new-task__form__date-picker">
             <span>Seleccione la fecha de finalización</span>
-            <v-date-picker v-model="newTask.date" :min-date="new Date()" />
+            <no-ssr>
+              <v-date-picker v-model="newTask.date" :min-date="new Date()" />
+            </no-ssr>
           </div>
           <v-btn class="create-new-task__submit" @click="addnewTask"
             >Añadir nueva tarea</v-btn

@@ -29,10 +29,12 @@
         </div>
         <div class="create-new-project__form__container__date-picker">
           <span>Seleccione la fecha de finalización</span>
-          <v-date-picker
-            v-model="newProject.finishDate"
-            :min-date="new Date()"
-          ></v-date-picker>
+          <no-ssr>
+            <v-date-picker
+              v-model="newProject.finishDate"
+              :min-date="new Date()"
+            ></v-date-picker>
+          </no-ssr>
         </div>
       </div>
       <v-btn @click="createNewProject">Crear nuevo proyecto</v-btn>
