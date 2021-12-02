@@ -188,11 +188,13 @@ export default {
     &__title {
       font-size: 16px;
       color: var(--blue-color);
+      text-transform: capitalize;
     }
     &__description,
     &__date {
       font-size: 14px;
       color: var(--gray-color);
+      text-transform: capitalize;
     }
   }
   &__new-card {

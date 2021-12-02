@@ -107,6 +107,19 @@
         </v-form>
       </div>
     </v-dialog>
+    <div class="leyenda">
+      Formato&nbsp;
+      <div class="formato">
+        <span>MM</span>
+        <span>DD</span>
+      </div>
+      <span class="rojo">&nbsp;&nbsp;rojo:&nbsp;</span>
+      sin realizar&nbsp;&nbsp;
+      <span class="amarillo">amarillo:&nbsp;</span>
+      realizándose&nbsp;&nbsp;
+      <span class="verde">verde:&nbsp;</span>
+      realizado&nbsp;
+    </div>
   </div>
 </template>
 
@@ -266,6 +279,7 @@ export default {
             }
             &__status {
               padding: 0;
+              min-width: 75px;
               .v-radio {
                 margin: 0;
               }
@@ -308,6 +322,7 @@ export default {
                 font-family: inherit;
                 display: inline-block;
                 font-weight: 400;
+                text-transform: capitalize;
               }
             }
             .date {
@@ -390,6 +405,25 @@ export default {
         color: white;
         margin: 10px 50px;
       }
+    }
+  }
+  .leyenda {
+    display: flex;
+    font-weight: bold;
+    position: relative;
+    top: -510px;
+    .formato {
+      display: flex;
+      flex-direction: column;
+    }
+    .rojo {
+      color: #d50000;
+    }
+    .amarillo {
+      color: #f9a825;
+    }
+    .verde {
+      color: #388e3c;
     }
   }
 }
