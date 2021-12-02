@@ -31,7 +31,7 @@
           <span>Seleccione la fecha de finalización</span>
           <v-date-picker
             v-model="newProject.finishDate"
-            min="2021-12-02"
+            :min-date="new Date()"
           ></v-date-picker>
         </div>
       </div>

@@ -45,7 +45,11 @@
               <span class="date">{{ project.finishDate }}</span>
             </div>
           </div>
-          <v-calendar class="project-info__calendar" :columns="2"></v-calendar>
+          <v-calendar
+            class="project-info__calendar"
+            :columns="2"
+            :attributes="attributes"
+          ></v-calendar>
         </div>
         <div class="project-users-list">
           <h4 class="project-users-list__title">Usuarios</h4>
@@ -145,6 +149,31 @@ export default {
       if (!this.$v.newTask.title.$dirty) return errors
       !this.$v.newTask.title.required && errors.push('Es requerido un título')
       return errors
+    },
+    attributes() {
+      if (this.$store.state.currentProject) {
+        const tasksList = this.$store.state.currentProject.tasks
+        const tasksOnVCalendar = []
+        for (const task of tasksList) {
+          let color
+          if (task.status === 'done') {
+            color = 'green'
+          } else if (task.status === 'doing') {
+            color = 'yellow'
+          } else {
+            color = 'red'
+          }
+          tasksOnVCalendar.push({
+            dates: task.date.toDate(),
+            bar: color,
+            popover: {
+              label: task.title,
+            },
+          })
+        }
+        return tasksOnVCalendar
+      }
+      return []
     },
   },
 
