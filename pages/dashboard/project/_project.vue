@@ -95,7 +95,7 @@
           ></v-text-field>
           <div class="create-new-task__form__date-picker">
             <span>Seleccione la fecha de finalización</span>
-            <v-date-picker v-model="newTask.date" min="2021-12-02" />
+            <v-date-picker v-model="newTask.date" :min-date="new Date()" />
           </div>
           <v-btn class="create-new-task__submit" @click="addnewTask"
             >Añadir nueva tarea</v-btn
